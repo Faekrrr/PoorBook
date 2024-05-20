@@ -28,14 +28,12 @@ async def insertTask(newTask: Task, repository: TaskRepository = Depends()):
     
     
 @tasksRouter.get("/tasks", response_model= ApiResponse)
-async def getTasks(condition: Optional[Dict[str, Any]], 
-                   offset: int = Query(0, description="How much to skip"),
+async def getTasks(offset: int = Query(0, description="How much to skip"),
                    take: int = Query(10, description="How much to take"),
                    repository: TaskRepository = Depends()):
-    
     """ Get tasks by condition """
     try:
-        result = repository.get(condition, offset, take)
+        result = repository.get({}, offset, take)
 
         if result is None or len(result) == 0:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
