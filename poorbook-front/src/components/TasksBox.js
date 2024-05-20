@@ -8,9 +8,9 @@ Modal.setAppElement('#root');
 
 const TasksBox = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [doneDate, setDoneDate] = useState(new Date());
+  const [taskTitle, setTitle] = useState('');
+  const [taskDesc, setDesc] = useState('');
+  const [taskDonedate, setDoneDate] = useState(new Date());
   const [tasks, setTasks] = useState([]);
 
   // Axios instance with default headers
@@ -45,10 +45,10 @@ const TasksBox = () => {
     e.preventDefault();
 
     const taskData = {
-      title,
-      desc,
-      doneDate,
-      status: 'IN_PROGRESS'
+      taskTitle,
+      taskDesc,
+      taskDonedate,
+      taskStatus: 'IN_PROGRESS'
     };
 
     axiosInstance.post('/tasks', taskData)
@@ -70,9 +70,9 @@ const TasksBox = () => {
           <li key={task.id} className="task-item">
             <h3>{task.taskTitle}</h3>
             <p>{task.taskDesc}</p>
-            <p>Status: {task.taskStatus}</p>
-            <p>Created: {new Date(task.taskCreated).toLocaleString()}</p>
-            <p>Done by: {new Date(task.taskDonedate).toLocaleString()}</p>
+            <p><b>Status</b>: {task.taskStatus}</p>
+            <p><b>Created</b>: {new Date(task.taskCreated).toLocaleString()}</p>
+            <p><b>Done by</b>: {new Date(task.taskDonedate).toLocaleString()}</p>
           </li>
         ))}
       </ul>
@@ -89,7 +89,7 @@ const TasksBox = () => {
             Task Title:
             <input 
               type="text" 
-              value={title}
+              value={taskTitle}
               onChange={(e) => setTitle(e.target.value)}
               required 
             />
@@ -97,14 +97,14 @@ const TasksBox = () => {
           <label>
             Description (optional):
             <textarea 
-              value={desc}
+              value={taskDesc}
               onChange={(e) => setDesc(e.target.value)}
             />
           </label>
           <label>
             Foreseen Done Date:
             <DatePicker 
-              selected={doneDate} 
+              selected={taskDonedate} 
               onChange={(date) => setDoneDate(date)} 
               dateFormat="yyyy/MM/dd"
               required 
