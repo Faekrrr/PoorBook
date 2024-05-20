@@ -1,48 +1,51 @@
 version: '3.8'
+
 services:
-    poor-backend:
-      build: ./poorbook-backend
-      image: poor-backend:1.0
-      container_name: poor-backend
-      environment:
+  poor-backend:
+    build: ./poorbook-backend
+    image: poor-backend:1.0
+    container_name: poor-backend
+    environment:
       - MONGO_HOST=poor-database
       - MONGO_DATABASE=poor_db
       - ALLOWED_HOSTS=http://localhost:8000/api/v1/
       - API_KEY=ioxnsaunxa
-      networks:
+    networks:
       - poor-network
-      ports:
+    ports:
       - "8000:8000"
-      depends_on:
+    depends_on:
       - poor-database
-      restart: always
+    restart: always
 
-    poor-database:
-      image: mongo:latest
-      container_name: poor-db
-      networks:
-        - poor-network
-      volumes:
-        - poor_data:/data/db
-      restart: always
+  poor-database:
+    image: mongo:latest
+    container_name: poor-db
+    networks:
+      - poor-network
+    volumes:
+      - poor_data:/data/db
+    restart: always
 
-    frontend:
-      build:
-        context: ./poorbook-front
-        dockerfile: Dockerfile
-      ports:
-        - "3000:5000"
-      volumes:
-        - .:/app
-        - /app/node_modules
-      environment:
-        - CHOKIDAR_USEPOLLING=true
+  frontend:
+    build:
+      context: ./poorbook-front
+      dockerfile: Dockerfile
+    ports:
+      - "3000:5000"
+    volumes:
+      - ./poorbook-front:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_BACKEND_URL=http://poor-backend:8000/api/v1
+    networks:
+      - poor-network
 
 networks:
   poor-network:
     driver: bridge
+
 volumes:
   poor_data:
     driver: local
-
-    
