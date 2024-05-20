@@ -1,0 +1,476 @@
+body {
+  background: rgb(240,239,247);
+  background: linear-gradient(143deg, rgba(240,239,247,1) 0%, rgba(13,25,51,1) 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.main-container {
+  margin-top: 100px; /* Adjust this value based on the height of your TopBar */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: calc(100vh - 100px); /* Adjust the height to account for the top bar */
+}
+
+.horizontal-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%; /* Each container takes half the width */
+}
+
+.vertical-divider {
+  /* width: 1px;
+  background: #ccc; */
+}
+
+.top-row {
+  display: flex;
+  flex: 10;
+  justify-content: space-around;
+  align-items: top;
+}
+
+.middle-row {
+  flex: 0.5;
+  margin: 5px;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+}
+
+.bottom-row {
+  flex: 0.5;
+  margin: 5px;
+  padding: 10px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+}
+
+.box {
+  height: 50%;
+  width: 25%;
+  margin: 5px;
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  color: rgb(86, 117, 255);
+}
+
+.icon-bar {
+  display: flex;
+  width: 80%;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  
+  /* border: 1px solid #ccc; */
+}
+
+.tasks-done-box {
+  width: 20%;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.progress-bar {
+  /* height: 100%; */
+  background: rgba(0, 255, 0, 0.4);
+  border-radius: 15px;
+}
+
+.progress {
+  background: green;
+  border-radius: inherit;
+  border-top-left-radius: 0;
+}
+
+/* Modal styling */
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  outline: none;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+}
+
+.modal input,
+.modal textarea {
+  height: 30px;
+  width: 30%; 
+  padding: 10px; 
+  font-size: 16px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px; 
+}
+
+.modal textarea {
+  resize: none; 
+}
+.modal label {
+  display: flex;
+}
+.modal h3 {
+  width: 20%;
+}
+
+
+
+.modal button {
+  height: 60px; 
+  padding: 20px 20px; 
+  border: none;
+  border-radius: 10px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: 0.5s;
+  width: 20%;
+  margin-bottom: 10px;;
+
+}
+
+.modal button:nth-child(0) {
+  background-color: black;
+
+}
+
+.modal button:hover {
+  background-color: #0056b3; 
+  transition: 0.5s;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.pencil-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  margin-left: 10px;
+}
+
+.box {
+  position: relative;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin-bottom: 10px;
+}
+
+form input,
+form textarea,
+form button {
+  margin-top: 5px;
+}
+
+/* NOTES STYLING */
+.notes-box {
+  /* height: 90%; */
+  /* flex: 1; */
+  margin: 5px;
+  padding: 10px;
+  text-align: center;
+  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.note {
+  background-color: rgba(0, 0, 0, 0.6); /* Background color of the note */
+  color: white;
+  border-radius: 15px; /* Large border radius */
+  padding: 10px;
+  margin-bottom: 10px; /* Space between notes */
+  /* width: calc(100% - 20px); Almost full width */
+}
+
+.note-input {
+  background-color: rgba(0, 0, 0, 0.6); /* Background color of the input */
+  border-radius: 12px; /* Large border radius */
+  padding: 10px;
+  margin-bottom: 10px;
+  width: calc(100% - 20px); 
+  border: 1px solid gray;
+  resize: none;
+}
+
+.note-input:focus {
+  outline: none;
+  border: 1px solid #9e36cf; /* Optional: border color when focused */
+}
+
+.add-icon {
+  background: none;
+  border: 3px #007bff solid;
+  cursor: pointer;
+  font-size: 1.7rem;
+  margin-left: 10px;
+  color: #007bff; /* Change color if needed */
+  border-radius: 25%;
+}
+
+.box {
+  position: relative;
+}
+
+.note-input:focus {
+  outline: none;
+  border: 1px solid #007bff; /* Optional: border color when focused */
+}
+
+
+/* Calendar styles*/
+
+.react-calendar__tile {
+  position: relative;
+}
+
+.events {
+  /* Each container takes half the width */
+   border: 1px solid #ccc;
+   margin: 5px;
+   padding: 10px;
+   text-align: center;
+   background-color: white;
+ }
+ 
+.event {
+  margin: 2px 0;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 3px;
+  color: white;
+  font-size: 12px;
+}
+
+.start-event {
+  background-color: green;
+}
+
+.end-event {
+  background-color: orange;
+}
+
+.single-day-event {
+  background-color: blue;
+}
+
+.edit-icon {
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  color: #007bff;
+  border: 1px solid black; 
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin-bottom: 10px;
+}
+
+form input,
+form textarea,
+form button {
+  margin-top: 5px;
+}
+
+/*CALENDAR STYLING */
+
+.react-calendar {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+  border: none !important;
+  border-radius: 10px;
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+.event {
+  margin: 2px 0;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 3px;
+  color: white;
+  font-size: 12px;
+}
+
+.start-event {
+  background-color: green;
+}
+
+.end-event {
+  background-color: orange;
+}
+
+.single-day-event {
+  background-color: blue;
+}
+
+.calendar-holder {
+  flex: 1;
+  margin: 5px;
+  padding: 10px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.calendar-holder button {
+  border-radius: 10px;
+  padding: 20px;
+  text-decoration: none !important;
+}
+
+.react-calendar__tile { 
+  font-size: 2.6rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled:focus, .react-calendar__tile--now {
+  background-color: #007bff;
+}
+
+.react-calendar__tile, .react-calendar__month-view__days__day, .react-calendar__month-view__days__day--neighboringMonth {
+  border: 1px black solid !important;
+}
+
+.react-calendar__month-view__days {
+  display: flex !important; 
+}
+
+.react-calendar__navigation__label {
+  font-size: 2rem;
+}
+
+.react-calendar__navigation__arrow {
+  font-size: 2rem;
+}
+
+/* TOP BAR */
+
+.top-bar {
+  width: 100%;
+  display: flex;
+ /* Change to desired color */
+  align-items: center;
+  color: white;
+  position: fixed; /* Fix the bar to the top */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+@font-face {
+  font-family: 'BoogieBoys';
+  src: url('./assets/BoogieBoys.otf') format('opentype');
+}
+
+.top-bar h1 {
+  vertical-align: middle;
+  margin: 0;
+  font-family: 'BoogieBoys', sans-serif; /* Apply the custom font */
+  font-size: 4.5rem;
+  color: rgb(63, 93, 231);
+}
+
+/* Logo  */
+
+.logo {
+  height: 100px; /* Adjust the size as needed */
+  margin-right: 10px;
+}
