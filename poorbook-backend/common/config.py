@@ -12,10 +12,16 @@ class Config():
         self.MONGO_PASSWORD = os.environ.get("MONGO_PASSWORD", "")
 
         #CORS
-        self.ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(',')
-        self.ALLOWED_METHODS = os.environ.get("ALLOWED_METHODS", "").split(',')
-        self.ALLOWED_HEADERS = os.environ.get("ALLOWED_HEADERS", "").split(',')
+        self.ALLOWED_HOSTS = self._loadValueAsList("ALLOWED_HOSTS")
+        self.ALLOWED_METHODS = self._loadValueAsList("ALLOWED_METHODS")
+        self.ALLOWED_HEADERS = self._loadValueAsList("ALLOWED_HEADERS")
 
         #api key
         self.API_KEY = os.environ.get("API_KEY", "")
+
+    def _loadValueAsList(self, envName: str, default = "*"):
+        """ Load values from env as a list """
+        envToProcess = os.getenv(envName, default)
+        return [env.strip() for env in envToProcess.split(',') if env.strip()]
+            
 
