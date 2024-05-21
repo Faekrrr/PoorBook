@@ -8,9 +8,9 @@ services:
     environment:
       - MONGO_HOST=poor-database
       - MONGO_DATABASE=poor_db
-      - ALLOWED_HOSTS=*
+      #- ALLOWED_HEADERS = example: X-API-Key, Content-Type
+      #- ALLOWED_HOSTS= example: http://localhost:8000/api/v1/, http://localhost:8001/api/v2/
       - ALLOW_METHODS=GET,POST,PUT,DELETE
-      - ALLOW_HEADERS=*
       - API_KEY=ioxnsaunxa
     networks:
       - poor-network

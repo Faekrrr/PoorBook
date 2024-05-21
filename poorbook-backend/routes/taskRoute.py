@@ -3,6 +3,7 @@ from models.responses.apiResponse import ApiResponse
 from models.entities.task import Task, UpdateTaskStatus
 from models.exceptions.statusAlreadySetException import StatusAlreadySetException
 from data.taskRepository import TaskRepository
+from typing import Optional, Dict, Any
 
 tasksRouter = APIRouter()
 
@@ -36,6 +37,23 @@ async def getTasks(offset: int = Query(0, description="How much to skip"),
         if result is None or len(result) == 0:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
     
+        return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
+    
+    except Exception as ex:
+        return ApiResponse.createResponse().asError(ex)
+    
+@tasksRouter.post("/tasks/condition", response_model= ApiResponse)
+async def getTasksByCondition(condition: Optional[Dict[str, Any]],
+                              offset: int = Query(0, description="How much to skip"),
+                              take: int = Query(10, description="How much to take"),
+                              repository: TaskRepository = Depends()):
+    """ Get tasks by criteria """
+    try:
+        result = repository.get(condition, offset, take)
+
+        if result is None or len(result) == 0:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tasks not found")
+        
         return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
     except Exception as ex:

@@ -18,16 +18,16 @@ class ApiResponse(BaseModel):
 
     @classmethod
     def createResponse(cls):
-        """ Creates new response """
+        """ Create new response """
         return cls()
     
     def addContent(self, content):
-        """ Adds content to response"""
+        """ Add content to response"""
         self.content = {"result": content}
         return self
     
     def asSuccess(self, statusCode: int):
-        """ Returns success message """
+        """ Return success message """
         self.message = "success"
         self.statusCode = statusCode
         return JSONResponse(
@@ -36,7 +36,7 @@ class ApiResponse(BaseModel):
         )
     
     def asError(self, exception: Exception, statusCode: int = None):
-        """ Returns error message """
+        """ Return error message """
         self.message = "failed"
         self.statusCode = statusCode if statusCode is not None else self._getStatusCode(exception)
         self.content = str(exception)
