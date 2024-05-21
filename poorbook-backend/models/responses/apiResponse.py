@@ -12,7 +12,7 @@ from fastapi.encoders import jsonable_encoder
 
 class ApiResponse(BaseModel):
     """ API Global response model """
-    message: str = ''
+    message: str = 'default'
     statusCode: int = None
     content: dict = {}
 
