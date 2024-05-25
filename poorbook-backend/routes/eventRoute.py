@@ -18,27 +18,27 @@ async def insertEvent(newEvent: Event, repository: EventRepository = Depends()):
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Operation failed")
         
-        return ApiResponse.createSuccessResponse(statusCode=status.HTTP_201_CREATED, content={})
+        return ApiResponse.createResponse().asSuccess(status.HTTP_201_CREATED)
         
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)
     
-@eventRouter.get("/events", status_code=status.HTTP_200_OK, response_model= ApiResponse)
+@eventRouter.post("/events", status_code=status.HTTP_200_OK, response_model= ApiResponse)
 async def getEventByDate(condition: Optional[Dict[str, Any]], 
                          offset: int = Query(0, description="How much to skip"),
                          take: int = Query(10, description="How much to take"),
                          repository: EventRepository = Depends()):
-    """ Get events by date """
+    """ Get events by criteria """
     try:
         result = repository.get(condition, offset, take)
 
         if result is None or len(result) == 0:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Events not found")
         
-        return ApiResponse.createSuccessResponse(statusCode=status.HTTP_200_OK, content={"result": result})
+        return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)
     
 
 @eventRouter.delete("/events/{id}")
@@ -49,11 +49,9 @@ async def deleteTask(id: str, repository: EventRepository = Depends()):
 
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tasks hasnt been deleted")
-        
-        return ApiResponse(status=status.HTTP_204_NO_CONTENT, content={})
     
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)
     
     
 @eventRouter.put("/events/{id}")
@@ -64,8 +62,6 @@ async def updateTask(id: str, changes: Event, repository: EventRepository = Depe
 
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tasks hasnt been updated")
-        
-        return ApiResponse(status=status.HTTP_204_NO_CONTENT, content={})
 
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)

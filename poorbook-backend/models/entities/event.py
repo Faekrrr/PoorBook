@@ -1,4 +1,4 @@
-from pydantic import BaseModel, root_validator, validator
+from pydantic import BaseModel, model_validator, field_validator
 from datetime import datetime
 import calendar
 
@@ -11,7 +11,7 @@ class Event(BaseModel):
     eventMonth: str = None
     eventPlace: str
 
-    @root_validator(pre=True)
+    @model_validator(mode='before')
     def setEventMonth(cls, values):
         """ Sets eventMonth based on given date """
         eventDate = values.get('eventDate')
@@ -22,7 +22,7 @@ class Event(BaseModel):
         return values
 
 
-    @validator("eventName")
+    @field_validator("eventName")
     def validateEventName(cls, value):
         """ Validate event name len """
         MAX_NAME_LEN = 255

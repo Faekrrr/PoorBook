@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from models.responses.apiResponse import ApiResponse
-from models.entities.task import Task
-from models.enums.taskStatus import TaskStatus
+from models.entities.task import Task, UpdateTaskStatus
 from models.exceptions.statusAlreadySetException import StatusAlreadySetException
 from data.taskRepository import TaskRepository
 from typing import Optional, Dict, Any
@@ -21,28 +20,44 @@ async def insertTask(newTask: Task, repository: TaskRepository = Depends()):
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Operation failed")
         
-        return ApiResponse.createSuccessResponse(statusCode=status.HTTP_201_CREATED, content={})
+        return ApiResponse.createResponse().asSuccess(status.HTTP_201_CREATED)
         
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)
     
     
 @tasksRouter.get("/tasks", response_model= ApiResponse)
 async def getTasks(offset: int = Query(0, description="How much to skip"),
                    take: int = Query(10, description="How much to take"),
                    repository: TaskRepository = Depends()):
-    """ Get tasks by condition """
+    """ Get tasks """
     try:
         result = repository.get({}, offset, take)
 
         if result is None or len(result) == 0:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
-        
-        return ApiResponse.createSuccessResponse(statusCode=status.HTTP_200_OK, content={"result": result})
+    
+        return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
     except Exception as ex:
+        return ApiResponse.createResponse().asError(ex)
+    
+@tasksRouter.post("/tasks/condition", response_model= ApiResponse)
+async def getTasksByCondition(condition: Optional[Dict[str, Any]],
+                              offset: int = Query(0, description="How much to skip"),
+                              take: int = Query(10, description="How much to take"),
+                              repository: TaskRepository = Depends()):
+    """ Get tasks by criteria """
+    try:
+        result = repository.get(condition, offset, take)
 
-        return ApiResponse.createErrorResponse(exception=ex)
+        if result is None or len(result) == 0:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tasks not found")
+        
+        return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
+    
+    except Exception as ex:
+        return ApiResponse.createResponse().asError(ex)
     
 
 @tasksRouter.delete("/tasks/{id}")
@@ -53,13 +68,11 @@ async def deleteTask(id: str, repository: TaskRepository = Depends()):
 
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tasks hasnt been deleted")
-        
-        return ApiResponse(status=status.HTTP_204_NO_CONTENT, content={})
     
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)
     
-@tasksRouter.put("/tasks/{id}")
+@tasksRouter.put("/tasks/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def updateTask(id: str, changes: Task, repository: TaskRepository = Depends()):
     """ Update task by Id """
     try:
@@ -68,24 +81,21 @@ async def updateTask(id: str, changes: Task, repository: TaskRepository = Depend
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tasks hasnt been updated")
         
-        return ApiResponse(status=status.HTTP_204_NO_CONTENT, content={})
-
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)
     
-@tasksRouter.put("/tasks/{id}")
-async def updateStatusOfTask(id: str, newStatus: TaskStatus, repository: TaskRepository = Depends()):
+
+@tasksRouter.put("/tasks/status/{id}", status_code=status.HTTP_204_NO_CONTENT)
+async def updateStatusOfTask(id: str, newStatus: UpdateTaskStatus, repository: TaskRepository = Depends()):
     """ Update given task's status """
     try:
-        result = repository.changeStatus(id, newStatus)
+        result = repository.changeStatus(id, newStatus.taskStatus)
 
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tasks hasnt been updated")
-        
-        return ApiResponse.createSuccessResponse(statusCode=status.HTTP_204_NO_CONTENT)
 
     except StatusAlreadySetException as ex:
-        return ApiResponse.createCustomErrorRespomse(statusCode=status.HTTP_400_BAD_REQUEST, exception=ex)
+        return ApiResponse.createResponse().asError(ex, status.HTTP_400_BAD_REQUEST)
 
     except Exception as ex:
-        return ApiResponse.createErrorResponse(exception=ex)
+        return ApiResponse.createResponse().asError(ex)

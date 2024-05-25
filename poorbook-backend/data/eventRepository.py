@@ -1,5 +1,4 @@
-from .repository import Repository
-from datetime import datetime
+from data.repository import Repository
 
 class EventRepository(Repository):
     """ Event-specific repository """

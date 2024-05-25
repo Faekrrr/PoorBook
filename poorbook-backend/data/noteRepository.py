@@ -1,4 +1,4 @@
-from .repository import Repository
+from data.repository import Repository
 
 class NoteRepository(Repository):
     """ Note-specific repository """

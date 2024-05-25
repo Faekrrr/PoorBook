@@ -21,10 +21,10 @@ config = Config()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
+    allow_origins=config.ALLOWED_HOSTS,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["*"]
+    allow_methods=config.ALLOWED_METHODS,
+    allow_headers=config.ALLOWED_HEADERS
 )
 
 #add exepcetion handling

@@ -1,57 +1,61 @@
 import sys
 sys.path.append('.')
 from pydantic import BaseModel
-from typing import Optional
 from fastapi import HTTPException
 from fastapi.exceptions import RequestValidationError
 from common.logger import InternalLogging
 from starlette import status
-from starlette.responses import Response
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 
 
 class ApiResponse(BaseModel):
-    """ Api endpoint response model """
-    message: str
-    status: Optional[int] = None
+    """ API Global response model """
+    message: str = 'default'
+    statusCode: int = None
     content: dict = {}
 
     @classmethod
-    def createErrorResponse(cls, exception: Exception):
-        """ Create error response """
+    def createResponse(cls):
+        """ Create new response """
+        return cls()
+    
+    def addContent(self, content):
+        """ Add content to response"""
+        self.content = {"result": content}
+        return self
+    
+    def asSuccess(self, statusCode: int):
+        """ Return success message """
+        self.message = "success"
+        self.statusCode = statusCode
+        return JSONResponse(
+            status_code= self.statusCode,
+            content=jsonable_encoder(self.model_dump())
+        )
+    
+    def asError(self, exception: Exception, statusCode: int = None):
+        """ Return error message """
+        self.message = "failed"
+        self.statusCode = statusCode if statusCode is not None else self._getStatusCode(exception)
+        self.content = str(exception)
 
-        response = cls(message="failed")
+        return JSONResponse(
+            status_code=self.statusCode,
+            content=self.model_dump()
+        )
+
+    def _getStatusCode(self, exception: Exception) -> int:
+        """ Get status code based on exception type """
         logger = InternalLogging()
 
+        if isinstance(exception, RequestValidationError):
+            return status.HTTP_422_UNPROCESSABLE_ENTITY
+        
         if isinstance(exception, HTTPException):
-            response.status = exception.status_code
-
-        elif isinstance(exception, RequestValidationError):
-            response.status = status.HTTP_422_UNPROCESSABLE_ENTITY
-           
-        else:
-            response.status = status.HTTP_500_INTERNAL_SERVER_ERROR
-            logger.error(f"Internal Server Error: [EX]: {exception}")
-
-        response.content = {"details": str(exception)}
-        return response
-    
-    @classmethod
-    def createCustomErrorRespomse(cls, statusCode: int, exception: Exception):
-        """ Create error response with custom status code """
-        return cls(
-            message="failed",
-            status=statusCode,
-            content={"details": str(exception)}
-        )
-    
-    @classmethod
-    def createSuccessResponse(cls, statusCode: int , content: dict = {"result": "no content"}):
-        """ Create success response """
-        return cls(
-            message="success",
-            status=statusCode,
-            content=content
-        )
-    
+            return exception.status_code
+        
+        logger.error(f"Internal Server Error: [EX]: {exception}")
+        return status.HTTP_500_INTERNAL_SERVER_ERROR
+        

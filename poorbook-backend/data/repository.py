@@ -1,4 +1,4 @@
-from .connection import Connection
+from data.connection import Connection
 from mappers.genericMapper import genericMapper, genericSerialMapper
 from bson import ObjectId
 from typing import Optional, Any, Dict
