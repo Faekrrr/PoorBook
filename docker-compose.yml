@@ -29,19 +29,19 @@ services:
       - poor_data:/data/db
     restart: always
 
-  frontend:
-    build:
-      context: ./poorbook-front
-      dockerfile: Dockerfile
-    ports:
-      - "3000:80"  # Map port 80 inside container to 3000 outside
-    volumes:
-      - ./poorbook-front:/app
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_BACKEND_URL=http://poor-backend:8000/api/v1
-    networks:
-      - poor-network
+  # poor-frontend:
+  #   build:
+  #     context: ./poorbook-front
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:80"  # Map port 80 inside container to 3000 outside
+  #   volumes:
+  #     - ./poorbook-front:/app
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #     - REACT_APP_BACKEND_URL=http://poor-backend:8000/api/v1
+  #   networks:
+  #     - poor-network
 
 networks:
   poor-network:
