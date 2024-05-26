@@ -56,16 +56,29 @@ const TasksBox = () => {
 
   return (
     <div className="box">
-      <h2>Tasks</h2>
-      <button onClick={openModal} className="add-icon">+</button>
+      <div className='title-container'>
+        <h2>Active Tasks</h2>
+        <button onClick={openModal} className="add-icon">+</button>
+      </div>
       <ul className="tasks-list">
         {tasks.map((task) => (
           <li key={task.id} className="task-item">
-            <h3>{task.taskTitle}</h3>
-            <hr className='solid'/>  
-            <p>{task.taskDesc}</p>
-            <p>Status: {task.taskStatus}</p>
-            <p className='taskDoneBy'>Done by: {new Date(task.taskDonedate).toLocaleString()}</p>
+            <div className='title-highlight'>
+              <h3>{task.taskTitle}</h3>
+            </div>
+            <hr className='solid'/>
+            <b>Description</b>
+            <div className='description-highlight'>
+            {task.taskDesc}
+            </div> 
+              <b>Status</b> 
+              <div className='status-highlight'>
+              {task.taskStatus}
+              </div>
+            <b>Done by </b>
+            <div className='done-highlight'>
+              {new Date(task.taskDonedate).toLocaleString()}
+            </div>
             <p className='taskCreated'>Created: {new Date(task.taskCreated).toLocaleString()}</p>
           </li>
         ))}
