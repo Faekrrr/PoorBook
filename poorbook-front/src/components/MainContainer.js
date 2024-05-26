@@ -6,7 +6,6 @@ const MainContainer = () => {
   return (
     <div className="main-container">
       <HorizontalContainer />
-      <div className="vertical-divider" />
       <div className="calendar-holder">
         <CustomCalendar />
       </div>
