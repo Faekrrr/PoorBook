@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from '../assets/poortaskslogo.png';
+import Sidebar from './Sidebar';
 
 const TopBar = () => {
   return (
     <div className="top-bar">
       <img src={logo} alt="Poor Tasks Logo" className="logo" />
-      <h1>Poor Tasks</h1>
-      {/* You can add more content here, such as navigation links or icons */}
+      <Sidebar />
     </div>
   );
 };
