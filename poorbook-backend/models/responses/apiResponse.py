@@ -7,8 +7,11 @@ from common.logger import InternalLogging
 from starlette import status
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from models.exceptions.apiExceptions import CustomApiException
+from common.logger import InternalLogging
 
 
+logger = InternalLogging()
 
 class ApiResponse(BaseModel):
     """ API Global response model """
@@ -40,6 +43,7 @@ class ApiResponse(BaseModel):
         self.message = "failed"
         self.statusCode = statusCode if statusCode is not None else self._getStatusCode(exception)
         self.content = str(exception)
+        logger.error(str(self))
 
         return JSONResponse(
             status_code=self.statusCode,
@@ -55,6 +59,10 @@ class ApiResponse(BaseModel):
         
         if isinstance(exception, HTTPException):
             return exception.status_code
+        
+        if isinstance(exception, CustomApiException):
+            return exception.status
+      
         
         logger.error(f"Internal Server Error: [EX]: {exception}")
         return status.HTTP_500_INTERNAL_SERVER_ERROR

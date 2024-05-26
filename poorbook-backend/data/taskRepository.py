@@ -1,7 +1,7 @@
 from data.repository import Repository
 from bson import ObjectId
 from mappers.genericMapper import genericMapper
-from models.exceptions.statusAlreadySetException import StatusAlreadySetException
+from models.exceptions.apiExceptions import StatusAlreadySetException
 
 class TaskRepository(Repository):
     """ Task-specific repository """

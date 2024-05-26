@@ -5,20 +5,17 @@ from fastapi.exceptions import RequestValidationError
 from starlette.requests import Request
 from starlette import status
 from models.responses.apiResponse import ApiResponse
-from models.exceptions.invalidApiKeyException import InvalidApiKeyException
-from models.exceptions.missingApiKeyException import MissingApiKeyException
+from models.exceptions.apiExceptions import CustomApiException
 
 
 def handleValidationError(request: Request, exception: RequestValidationError):
     """ Handle RequestValidationError from pydantic """
     return ApiResponse.createResponse().asError(exception, status.HTTP_422_UNPROCESSABLE_ENTITY)
 
+def hadleCustomApiExceptions(requst: Request, exception: CustomApiException):
+    """ Handle custom API Exceptions """
+    return ApiResponse.createResponse().asError(exception, exception.status)
 
-def handleApiKeyValidation(request: Request, exception: InvalidApiKeyException):
-    """ Handle InvalidApiKey exception """
-    return ApiResponse.createResponse().asError(exception, status.HTTP_401_UNAUTHORIZED)
-
-
-def handleMissingApiKeyValidation(request: Request, exception: MissingApiKeyException):
-    """ Handle MissinApiKey exception """
-    return ApiResponse.createResponse().asError(exception, status.HTTP_403_FORBIDDEN)
+def handleRegularException(request: Request, exception: Exception):
+    """ Handle all unhandled exceptions """
+    return ApiResponse.createResponse().asError(exception, status.HTTP_500_INTERNAL_SERVER_ERROR)

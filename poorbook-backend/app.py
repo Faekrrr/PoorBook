@@ -1,13 +1,12 @@
 from fastapi import FastAPI, Depends
 from common.config import Config
-from models.handlers.exceptionHandler import handleValidationError, handleApiKeyValidation, handleMissingApiKeyValidation
+from models.handlers.exceptionHandler import handleValidationError, hadleCustomApiExceptions, handleRegularException
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from models.exceptions.invalidApiKeyException import InvalidApiKeyException
-from models.exceptions.missingApiKeyException import MissingApiKeyException
 from common.authenticator import Authenticator
 from routes.eventRoute import eventRouter
 from routes.taskRoute import tasksRouter
+from models.exceptions.apiExceptions import CustomApiException
 import uvicorn
 
 #get authenticator
@@ -29,8 +28,8 @@ app.add_middleware(
 
 #add exepcetion handling
 app.add_exception_handler(RequestValidationError, handleValidationError)
-app.add_exception_handler(MissingApiKeyException, handleMissingApiKeyValidation)
-app.add_exception_handler(InvalidApiKeyException, handleApiKeyValidation)
+app.add_exception_handler(CustomApiException, hadleCustomApiExceptions)
+app.add_exception_handler(Exception, handleRegularException)
 
 #add routes
 API_PREFIX = "/api/v1"

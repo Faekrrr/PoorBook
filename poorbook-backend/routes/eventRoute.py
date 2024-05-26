@@ -1,27 +1,24 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
 from models.entities.event import Event
 from data.eventRepository import EventRepository
 from typing import Optional, Dict, Any
+from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
+
 
 
 eventRouter = APIRouter()
 
 @eventRouter.post("/events", status_code=status.HTTP_201_CREATED, response_model= ApiResponse)
 async def insertEvent(newEvent: Event, repository: EventRepository = Depends()):
-    try:
-        if newEvent is None or not isinstance(newEvent, Event):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid input data.")
-        
-        result = repository.insert(newEvent)
+    """ Create new event"""  
+    result = repository.insert(newEvent)
 
-        if not result:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Operation failed")
+    if not result:
+        raise ItemNotCreatedException("Event hasnt been created")
         
-        return ApiResponse.createResponse().asSuccess(status.HTTP_201_CREATED)
+    return ApiResponse.createResponse().asSuccess(status.HTTP_201_CREATED)
         
-    except Exception as ex:
-        return ApiResponse.createResponse().asError(ex)
     
 @eventRouter.post("/events", status_code=status.HTTP_200_OK, response_model= ApiResponse)
 async def getEventByDate(condition: Optional[Dict[str, Any]], 
@@ -29,39 +26,26 @@ async def getEventByDate(condition: Optional[Dict[str, Any]],
                          take: int = Query(10, description="How much to take"),
                          repository: EventRepository = Depends()):
     """ Get events by criteria """
-    try:
-        result = repository.get(condition, offset, take)
-
-        if result is None or len(result) == 0:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Events not found")
-        
-        return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
-    
-    except Exception as ex:
-        return ApiResponse.createResponse().asError(ex)
+    result = repository.get(condition, offset, take)
+    if not result:
+        raise ItemNotFoundException("Events hasnt been found")
+           
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
 
 @eventRouter.delete("/events/{id}")
 async def deleteTask(id: str, repository: EventRepository = Depends()):
     """ Delete event by Id """
-    try:
-        result = repository.delete(id)
+    result = repository.delete(id)
 
-        if not result:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tasks hasnt been deleted")
-    
-    except Exception as ex:
-        return ApiResponse.createResponse().asError(ex)
+    if not result:
+        raise ItemNotDeletedException("Event hasnt been deleted")
     
     
 @eventRouter.put("/events/{id}")
 async def updateTask(id: str, changes: Event, repository: EventRepository = Depends()):
     """ Update event by Id """
-    try:
-        result = repository.update(id, changes)
-
-        if not result:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tasks hasnt been updated")
-
-    except Exception as ex:
-        return ApiResponse.createResponse().asError(ex)
+    result = repository.update(id, changes)
+    
+    if not result:
+        raise ItemNotUpdatedException("Event hasnt been updated")
