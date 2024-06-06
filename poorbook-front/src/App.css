@@ -19,6 +19,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 60%;
+  height: calc(100vh - 100px);
   justify-content: space-between;
 }
 
@@ -142,32 +143,21 @@ body {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-/* Edit icon */
-
-.pencil-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  margin-left: 10px;
-}
-
 /* Form styling */
 
 form {
   display: flex;
   flex-direction: column;
+  
 }
 
 form label {
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-form input,
-form textarea,
-form button {
-  margin-top: 5px;
-}
+
 
 /* Notes Styling */
 
@@ -252,23 +242,6 @@ form button {
 
 .single-day-event {
   background-color: blue;
-}
-
-/* Form styling */
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-form label {
-  margin-bottom: 10px;
-}
-
-form input,
-form textarea,
-form button {
-  margin-top: 5px;
 }
 
 /*Calendar styling*/
@@ -421,7 +394,6 @@ form button {
   padding: 20px;
   border-radius: 10px;
   outline: none;
-  width: 60%;
   display: flex;
   flex-direction: column;
   font-size: 1.4rem;
@@ -429,6 +401,9 @@ form button {
 
 .modal label {
   display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
 }
 
 .modal h3 {
@@ -436,7 +411,6 @@ form button {
 }
 
 .modal input, .modal textarea {
-  height: 40px; /* Set desired height */
   padding: 10px; /* Adjust padding as needed */
   font-size: 16px; /* Adjust font size as needed */
   border: 1px solid #ccc;
@@ -445,8 +419,8 @@ form button {
 }
 
 .modal textarea {
-  height: 100px; /* Set a different height for textareas */
-  resize: vertical; /* Allow vertical resizing of textareas */
+  height: 60px; /* Set a different height for textareas */
+  resize: none; /* Allow vertical resizing of textareas */
 }
 
 .modal button {
@@ -462,6 +436,34 @@ form button {
 
 .modal button:hover {
   background-color: #0056b3; /* Change to desired hover color */
+}
+
+.modal .close-button {
+  background-color: rgba(0, 0, 0, 0);
+  color: gray;
+  text-decoration: underline;
+}
+
+.modal .close-button:hover {
+  background-color: #fff;
+}
+
+.description {
+  height: 60px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+label select {
+  height: 30px;
+  font-size: 1.2rem;
+  margin: 30px;
+}
+
+.modal .deletion-confirmation-button {
+  background-color: #f00;
 }
 
 .overlay {
@@ -490,6 +492,23 @@ form button {
 }
 
 .title-highlight {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.actions {
+  display: flex;
+}
+
+.actions button{
+  color: white;
+  
+}
+
+.action-icon {
+  background-color: rgba(0,0,0,0);
+  border: none;
   font-size: 1.2rem;
 }
 
