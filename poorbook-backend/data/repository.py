@@ -27,7 +27,7 @@ class Repository():
         result = self._collection.update_one({"_id": ObjectId(entityId)}, {"$set": dict(changes)})
         return result.modified_count > 0
     
-    def get(self, condition: Optional[Dict[str, Any]], offset: int, take: int):
+    def get(self, offset: int, take: int, condition: Optional[Dict[str, Any]] = {}):
         """ Get items by given criteria """
         if condition is None or condition == {}:
             cursor = self._collection.find()

@@ -1,8 +1,7 @@
 from common.config import Config
 from fastapi.security.api_key import APIKeyHeader
 from fastapi import Security
-from models.exceptions.missingApiKeyException import MissingApiKeyException
-from models.exceptions.invalidApiKeyException import InvalidApiKeyException
+from models.exceptions.apiExceptions import MissingApiKeyException, InvalidApiKeyException
 
 class Authenticator():
     """ Handle API Key authentication """

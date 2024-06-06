@@ -3,26 +3,19 @@ sys.path.append('.')
 
 from fastapi.exceptions import RequestValidationError
 from starlette.requests import Request
-from starlette.responses import JSONResponse
 from starlette import status
 from models.responses.apiResponse import ApiResponse
-from models.exceptions.invalidApiKeyException import InvalidApiKeyException
-from models.exceptions.missingApiKeyException import MissingApiKeyException
+from models.exceptions.apiExceptions import CustomApiException
 
 
 def handleValidationError(request: Request, exception: RequestValidationError):
     """ Handle RequestValidationError from pydantic """
-    response = ApiResponse.createErrorResponse(exception)
-    return JSONResponse(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, content=response.model_dump())
+    return ApiResponse.createResponse().asError(exception, status.HTTP_422_UNPROCESSABLE_ENTITY)
 
-def handleApiKeyValidation(request: Request, exc: InvalidApiKeyException):
-    """ Handle InvalidApiKey exception """
-    statusCode = status.HTTP_401_UNAUTHORIZED
-    response = ApiResponse.createCustomErrorRespomse(statusCode=statusCode, exception=exc)
-    return JSONResponse(status_code=statusCode, content=response.model_dump())
+def handleCustomApiExceptions(requst: Request, exception: CustomApiException):
+    """ Handle custom API Exceptions """
+    return ApiResponse.createResponse().asError(exception, exception.status)
 
-def handleMissingApiKeyValidation(request: Request, exc: MissingApiKeyException):
-    """ Handle MissinApiKey exception """
-    statusCode = status.HTTP_403_FORBIDDEN
-    response = ApiResponse.createCustomErrorRespomse(statusCode=statusCode, exception=exc)
-    return JSONResponse(status_code=statusCode, content=response.model_dump())
+def handleRegularException(request: Request, exception: Exception):
+    """ Handle all unhandled exceptions """
+    return ApiResponse.createResponse().asError(exception, status.HTTP_500_INTERNAL_SERVER_ERROR)
