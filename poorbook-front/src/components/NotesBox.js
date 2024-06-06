@@ -1,69 +1,39 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import axiosInstance from '../axiosInstance';
 
 const NotesBox = () => {
   const [notes, setNotes] = useState([]);
-  const [currentNote, setCurrentNote] = useState('');
-  const inputRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-        saveCurrentNote();
+  const handlePasteNote = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        const noteData = { content: text };
+        const response = await axiosInstance.post('/notes', noteData);
+        if (response.status === 200) {
+          // Optionally, update the notes state with the new note
+          setNotes([...notes, response.data]);
+        }
       }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [currentNote]);
-
-  const saveCurrentNote = () => {
-    if (currentNote.trim() === '') return;
-
-    const newNote = {
-      date: new Date().toLocaleString(),
-      note: currentNote,
-    };
-
-    // axios.post('/api/create-note', newNote)
-    //   .then(response => {
-    //     setNotes([...notes, newNote]);
-    //     setCurrentNote('');
-    //   })
-    //   .catch(error => {
-    //     console.error('There was an error creating the note!', error);
-    //   });
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      saveCurrentNote();
+    } catch (error) {
+      console.error('Error reading clipboard content:', error);
     }
   };
 
   return (
     <div className="box">
-        <div className="title-container">
-        <h1>Pastebin</h1>
-        </div>
-        
-      {notes.map((note, index) => (
-        <div key={index} className="note">
-            
-          {note.note}
-        </div>
-      ))}
-      <textarea
-        ref={inputRef}
-        value={currentNote}
-        onChange={(e) => setCurrentNote(e.target.value)}
-        onKeyPress={handleKeyPress}
-        placeholder="Type a note..."
-        className="note-input"
-      />
+      <div className='title-container'>
+        <h2>Your pastebin</h2>
+      </div>
+      <button onClick={handlePasteNote} className="paste-note-button">Click me 2 times!</button>
+      <hr className='solid'/>
+      <ul className="notes-list">
+        {notes.map((note, index) => (
+          <li key={index} className="note">
+            {note.content}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

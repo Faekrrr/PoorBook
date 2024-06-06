@@ -41,7 +41,7 @@ const EventsBox = () => {
   return (
     <div className="box">
       <div className="title-container">
-        <h1>Events</h1>
+        <h2>Events</h2>
         <button onClick={openModal} className="add-icon">+</button>
       </div>
 
