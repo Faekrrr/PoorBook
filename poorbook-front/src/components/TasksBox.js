@@ -3,6 +3,9 @@ import Modal from 'react-modal';
 import axiosInstance from '../axiosInstance';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { MdSettingsInputSvideo } from "react-icons/md";
+import { FaEdit } from 'react-icons/fa';
+import { IoTrashBin } from "react-icons/io5";
 
 Modal.setAppElement('#root');
 
@@ -143,6 +146,17 @@ const TasksBox = () => {
           <li key={task.id} className="task-item">
             <div className='title-highlight'>
               <h3>{task.taskTitle}</h3>
+              <div className="actions">
+              <button onClick={() => openStatusModal(task.id)} className="action-icon">
+                <MdSettingsInputSvideo />
+              </button>
+              <button onClick={() => openEditModal(task)} className="action-icon">
+                <FaEdit />
+              </button>
+              <button onClick={() => openDeleteModal(task.id)} className="action-icon">
+                <IoTrashBin />
+              </button>
+            </div>
             </div>
             <hr className='solid'/>
             <b>Description</b>
@@ -158,11 +172,7 @@ const TasksBox = () => {
               {new Date(task.taskDonedate).toLocaleString()}
             </div>
             <p className='taskCreated'>Created: {new Date(task.taskCreated).toLocaleString()}</p>
-            <div className="actions">
-              <button onClick={() => openStatusModal(task.id)} className="action-icon">Set Status</button>
-              <button onClick={() => openEditModal(task)} className="action-icon">Edit</button>
-              <button onClick={() => openDeleteModal(task.id)} className="action-icon">Delete</button>
-            </div>
+            
           </li>
         ))}
       </ul>
@@ -176,7 +186,7 @@ const TasksBox = () => {
         <h2>Create Task</h2>
         <form onSubmit={handleSubmit}>
           <label>
-            Task Title:
+            Task Title
             <input 
               type="text" 
               value={title}
@@ -185,14 +195,16 @@ const TasksBox = () => {
             />
           </label>
           <label>
-            Description (optional):
-            <textarea 
+            Short description
+            <textarea
+              type='text'
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
+              className='description'
             />
           </label>
           <label>
-            Foreseen Done Date:
+            Foreseen Done Date
             <DatePicker 
               selected={doneDate} 
               onChange={(date) => setDoneDate(date)} 
@@ -205,7 +217,7 @@ const TasksBox = () => {
           </label>
           <button type="submit">Create Task</button>
         </form>
-        <button onClick={closeModal}>Close</button>
+        <button onClick={closeModal} className='close-button'>Close</button>
       </Modal>
 
       <Modal
@@ -228,7 +240,7 @@ const TasksBox = () => {
           </label>
           <button type="submit">Set</button>
         </form>
-        <button onClick={closeStatusModal}>Close</button>
+        <button onClick={closeStatusModal} className='close-button'>Close</button>
       </Modal>
 
       <Modal
@@ -241,7 +253,7 @@ const TasksBox = () => {
         <h2>Edit Task</h2>
         <form onSubmit={handleEditSubmit}>
           <label>
-            Task Title:
+            Task Title
             <input 
               type="text" 
               value={title}
@@ -249,15 +261,17 @@ const TasksBox = () => {
               required 
             />
           </label>
-          <label>
-            Description (optional):
-            <textarea 
+          <label className='description-area'>
+            Short description
+            <textarea
+              type='text'
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
+              className='description'
             />
           </label>
           <label>
-            Foreseen Done Date:
+            Foreseen Done Date
             <DatePicker 
               selected={doneDate} 
               onChange={(date) => setDoneDate(date)} 
@@ -270,7 +284,7 @@ const TasksBox = () => {
           </label>
           <button type="submit">Edit Task</button>
         </form>
-        <button onClick={closeEditModal}>Close</button>
+        <button onClick={closeEditModal} className='close-button'>Close</button>
       </Modal>
 
       <Modal
@@ -281,8 +295,8 @@ const TasksBox = () => {
         overlayClassName="overlay"
       >
         <h2>Are you sure you want to delete this task?</h2>
-        <button onClick={handleDelete}>Confirm</button>
-        <button onClick={closeDeleteModal}>Close</button>
+        <button onClick={handleDelete} className='deletion-confirmation-button'>Delete</button>
+        <button onClick={closeDeleteModal} className='close-button'>Cancel</button>
       </Modal>
     </div>
   );
