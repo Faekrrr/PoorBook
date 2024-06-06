@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from common.config import Config
-from models.handlers.exceptionHandler import handleValidationError, hadleCustomApiExceptions, handleRegularException
+from models.handlers.exceptionHandler import handleValidationError, handleCustomApiExceptions, handleRegularException
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from common.authenticator import Authenticator
@@ -28,7 +28,7 @@ app.add_middleware(
 
 #add exepcetion handling
 app.add_exception_handler(RequestValidationError, handleValidationError)
-app.add_exception_handler(CustomApiException, hadleCustomApiExceptions)
+app.add_exception_handler(CustomApiException, handleCustomApiExceptions)
 app.add_exception_handler(Exception, handleRegularException)
 
 #add routes

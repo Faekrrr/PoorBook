@@ -12,7 +12,7 @@ def handleValidationError(request: Request, exception: RequestValidationError):
     """ Handle RequestValidationError from pydantic """
     return ApiResponse.createResponse().asError(exception, status.HTTP_422_UNPROCESSABLE_ENTITY)
 
-def hadleCustomApiExceptions(requst: Request, exception: CustomApiException):
+def handleCustomApiExceptions(requst: Request, exception: CustomApiException):
     """ Handle custom API Exceptions """
     return ApiResponse.createResponse().asError(exception, exception.status)
 
