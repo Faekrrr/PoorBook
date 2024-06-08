@@ -1,4 +1,5 @@
 from fastapi import status
+from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
 class CustomApiException(Exception):
     """ Custom exception type for poor-backend"""
@@ -54,3 +55,9 @@ class ItemNotUpdatedException(CustomApiException):
     """ Given item hasnt been created due to exception """
     def __init__(self, message: str = "Item hasnt been updated"):
         super().__init__(status=status.HTTP_400_BAD_REQUEST, message=message, name="ItemNotUpdatedException") 
+        
+        
+class InvalidOrderException(CustomApiException):
+    """ Given order name is invalid """
+    def __init__(self, message: str = "Invalid order of data"):
+        super().__init__(status=status.HTTP_422_UNPROCESSABLE_ENTITY, message=message, name="InvalidOrderException") 
