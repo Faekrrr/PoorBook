@@ -58,7 +58,6 @@ async def getTasksByCondition(condition: Optional[Dict[str, Any]],
                               sortBy: str = Query("taskCreated", description="Which property to sort by"),
                               repository: TaskRepository = Depends()):
     """ Get tasks by criteria """
-    print(filter)
     result = repository.getSorted(GetCondition(
         take=take,
         offset=offset,

@@ -6,7 +6,7 @@ import calendar
 class Event(BaseModel):
     """ Event entity """
     eventName: str
-    eventCreated: datetime
+    eventCreated: datetime = datetime.now()
     eventDate: datetime
     eventMonth: str = None
     eventPlace: str
