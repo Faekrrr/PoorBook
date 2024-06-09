@@ -43,7 +43,6 @@ async def getEvents(offset: int = Query(0, description="How much to skip"),
 
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
         
-    
 @eventRouter.post("/events/condition", response_model= ApiResponse, 
                   summary="Get events by criteria.", 
                   description="Retrieve events based on specific filtering and sorting criteria.",
@@ -68,7 +67,6 @@ async def getTasksByCondition(condition: Optional[Dict[str, Any]],
         
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
-
 @eventRouter.delete("/events/{id}", 
                     summary="Delete event by Id.",
                     description="Delete event providing event Id.",
