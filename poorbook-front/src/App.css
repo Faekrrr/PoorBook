@@ -276,6 +276,11 @@ form label {
   border-radius: 10px;
   padding: 20px;
   text-decoration: none !important;
+  transition: 0.3s;
+}
+
+.calendar-holder button:hover {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .react-calendar__tile { 
@@ -286,9 +291,13 @@ form label {
 }
 
 .react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled:focus, .react-calendar__tile--now {
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.2);
+  color: rgb(86, 117, 255);
   display: flex !important;
+}
 
+.react-calendar__month-view__days__day:hover {
+  background-color: rgb(86, 117, 255) !important;
 }
 
 .react-calendar__tile, .react-calendar__month-view__days__day, .react-calendar__month-view__days__day--neighboringMonth {
@@ -578,4 +587,17 @@ label select {
 
 .navigation-item {
   margin-right: 3%;
+}
+
+/* Pastebin */
+
+.paste-note-button {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 80%;
+  background: rgba(0,0,0,0.3);
+  font-size: 3rem;
+  border: 1px black solid;
+  border-radius: 10px;
+  color: rgb(139, 139, 239)
 }
