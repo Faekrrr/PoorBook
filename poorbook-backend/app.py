@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from common.authenticator import Authenticator
 from routes.eventRoute import eventRouter
 from routes.taskRoute import tasksRouter
+from routes.noteRoute import noteRouter
 from models.exceptions.apiExceptions import CustomApiException
 import uvicorn
 
@@ -37,6 +38,7 @@ app.add_exception_handler(Exception, handleRegularException)
 API_PREFIX = "/api/v1"
 app.include_router(tasksRouter, prefix=API_PREFIX)
 app.include_router(eventRouter, prefix=API_PREFIX)
+app.include_router(noteRouter, prefix=API_PREFIX)
 
 #run uvicorn
 if __name__ == '__main__':

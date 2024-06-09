@@ -4,6 +4,6 @@ from datetime import datetime
 
 class Note(BaseModel):
     """ Note model """
-    content: str
-    created: datetime
+    noteContent: str
+    noteCreated: datetime = datetime.now()
 
