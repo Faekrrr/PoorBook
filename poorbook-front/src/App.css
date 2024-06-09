@@ -107,6 +107,7 @@ body {
   top: 0;
   position: sticky;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   color: rgb(86, 117, 255);
   background-color: rgba( 0, 0, 0, 0.8);
@@ -617,7 +618,7 @@ label select {
 
 .notes-list {
   list-style-type: none;
-  padding: 0;
+  padding: 10px;
 }
 
 .note {
@@ -649,10 +650,12 @@ label select {
 
 .note-icons {
   display: none; /* Hidden by default */
+  transition: 0.5s;
 }
 
 .note:hover .note-icons {
   display: flex; /* Show icons on hover */
+  transition: 0.5s;
 }
 
 .icon {

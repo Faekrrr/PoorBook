@@ -61,9 +61,8 @@ const NotesBox = () => {
     <div className="box">
       <div className="title-container">
         <h2>Pastebin</h2>
+        <button onClick={handlePasteNote} className="paste-note-button">Paste</button>
       </div>
-      <button onClick={handlePasteNote} className="paste-note-button">Paste</button>
-      <hr className="solid" />
       <ul className="notes-list">
         {notes.map((note) => (
           <li key={note.id} className="note">
