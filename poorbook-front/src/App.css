@@ -3,6 +3,7 @@ body {
   background: linear-gradient(143deg, rgba(240,239,247,1) 0%, rgba(13,25,51,1) 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100vh;
+  max-height: 100vh;
 }
 
 /* Two panels */
@@ -591,13 +592,81 @@ label select {
 
 /* Pastebin */
 
-.paste-note-button {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  width: 80%;
-  background: rgba(0,0,0,0.3);
-  font-size: 3rem;
-  border: 1px black solid;
+.notes-box {
+  margin: 20px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.45);
   border-radius: 10px;
-  color: rgb(139, 139, 239)
+  text-align: center;
+}
+
+.paste-note-button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.paste-note-button:hover {
+  background-color: #0056b3;
+}
+
+.notes-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.note {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  position: relative; /* Added for icon positioning */
+}
+
+.note-id,
+.note-created {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.note-content {
+  font-size: 1rem;
+  color: white;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-icons {
+  display: none; /* Hidden by default */
+}
+
+.note:hover .note-icons {
+  display: flex; /* Show icons on hover */
+}
+
+.icon {
+  cursor: pointer;
+  margin-left: 10px;
+  color: white;
+}
+
+.icon:hover {
+  color: #ccc;
+}
+
+.copied-text {
+  margin-left: 10px;
+  color: green;
+  font-size: 0.8rem;
 }
