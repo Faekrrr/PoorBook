@@ -13,7 +13,9 @@ import uvicorn
 auth = Authenticator()
 
 #create app
-app = FastAPI(dependencies=[Depends(auth.validateApiKey)])
+app = FastAPI(dependencies=[Depends(auth.validateApiKey)],
+              title="Poor-backend",
+              version="1.0")
 
 #configure CORS
 config = Config()
