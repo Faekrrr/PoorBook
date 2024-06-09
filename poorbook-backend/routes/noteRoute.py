@@ -34,7 +34,7 @@ def getNotes(offset: int = Query(0, description="How much to skip"),
         take=take,
         offset=offset,
         sortOrder=order,
-        sortBy="noteCreated"
+        sortBy="created"
     ))
     
     if not result:
