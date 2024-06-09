@@ -4,7 +4,7 @@ from mappers.genericMapper import genericMapper
 from models.exceptions.apiExceptions import StatusAlreadySetException
 from typing import Optional, Any, Dict
 from mappers.genericMapper import genericSerialMapper
-from models.enums.sortedBy import SoretedBy
+from models.enums.sortedBy import SortedBy
 from models.exceptions.apiExceptions import InvalidOrderException
 
 class TaskRepository(Repository):

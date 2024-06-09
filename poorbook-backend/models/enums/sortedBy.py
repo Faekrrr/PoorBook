@@ -1,6 +1,6 @@
 from enum import Enum
 
-class SoretedBy(Enum):
+class SortedBy(Enum):
     """ Sorting data options """
     ASC = "ASC"
     DESC = "DESC"
