@@ -9,7 +9,7 @@ body {
 /* Two panels */
 
 .main-container {
-  margin-top: 50px; /* Adjust this value based on the height of your TopBar */
+  padding-top: 50px; /* Adjust this value based on the height of your TopBar */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -672,4 +672,53 @@ label select {
   margin-left: 10px;
   color: green;
   font-size: 0.8rem;
+}
+
+/* Events Additional Styling */
+.events-list {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.event {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.event-id,
+.event-created {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.event-name {
+  font-size: 1rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.event-place {
+  font-size: 0.9rem;
+  color: white;
+}
+
+.event-date {
+  font-size: 0.9rem;
+  color: white;
+}
+
+.event-icons {
+  display: none; /* Hidden by default */
+  position: sticky;
+  left: 10px;
+  top: 10px;
+}
+
+.event:hover .event-icons {
+  display: flex; /* Show icons on hover */
 }
