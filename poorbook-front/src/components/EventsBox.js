@@ -168,7 +168,7 @@ const EventsBox = () => {
           </label>
           <button type="submit">Create Event</button>
         </form>
-        <button onClick={closeModal}>Close</button>
+        <button onClick={closeModal} className='close-button'>Close</button>
       </Modal>
       <Modal
         isOpen={editModalIsOpen}
@@ -211,7 +211,7 @@ const EventsBox = () => {
           </label>
           <button type="submit">Save Changes</button>
         </form>
-        <button onClick={closeEditModal}>Close</button>
+        <button onClick={closeEditModal} className='close-button'>Close</button>
       </Modal>
       <Modal
         isOpen={deleteModalIsOpen}
@@ -222,7 +222,7 @@ const EventsBox = () => {
       >
         <h2>Are you sure you want to delete this event?</h2>
         <button onClick={handleDelete}>Delete</button>
-        <button onClick={closeDeleteModal}>Close</button>
+        <button onClick={closeEditModal} className='close-button'>Cancel</button>
       </Modal>
     </div>
   );

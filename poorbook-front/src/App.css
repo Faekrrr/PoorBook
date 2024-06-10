@@ -377,6 +377,18 @@ form label {
   color: #007bff; /* Change color if needed */
 }
 
+.tasks-icons {
+  display: none; /* Hidden by default */
+  position: sticky;
+  left: 10px;
+  top: 10px;
+  color: white;
+}
+
+.task-item:hover .tasks-icons {
+  display: flex; /* Show icons on hover */
+}
+
 .tasks-list {
   list-style-type: none;
   padding: 0;
