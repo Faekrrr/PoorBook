@@ -114,16 +114,23 @@ const EventsBox = () => {
       <ul className="events-list">
         {events.map((event) => (
           <li key={event.id} className="event">
-            <p className="event-name">
-              {event.eventName}
-              <div className="event-icons">
-                <FaEdit className="icon" onClick={() => openEditModal(event)} />
-                <FaTrash className="icon" onClick={() => openDeleteModal(event.id)} />
+              <div className='title-highlight'>
+                <h3>{event.eventName}</h3>
+                  <div className="event-icons">
+                    <FaEdit className="icon" onClick={() => openEditModal(event)} />
+                    <FaTrash className="icon" onClick={() => openDeleteModal(event.id)} />
+                  </div>
               </div>
-            </p>
-            <p className="event-place">{event.eventPlace}</p>
-            <p className="event-date">{new Date(event.eventDate).toLocaleString()}</p>
-            <p className="event-created">{new Date(event.eventCreated).toLocaleString()}</p>
+              <hr className='solid'/>
+              <b>Event place:</b>
+              <div className='description-highlight'>
+                {event.eventPlace}
+              </div>
+              <b>Event date:</b>
+              <div className='description-highlight'>
+              {new Date(event.eventDate).toLocaleString()}
+              </div>
+            <p className="event-created">Created: {new Date(event.eventCreated).toLocaleString()}</p>
           </li>
         ))}
       </ul>
