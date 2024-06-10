@@ -69,8 +69,8 @@ const NotesBox = () => {
             <div className="note-header">
               <p className="note-id">{note.id}</p>
               <div className="note-icons">
+                {copiedNoteId === note.id && <span className="copied-text">Copied!</span>}
                 <FaCopy className="icon" onClick={() => handleCopy(note.content, note.id)} />
-                {copiedNoteId === note.id && <span className="copied-text">Copied</span>}
                 <FaTrash className="icon" onClick={() => handleDelete(note.id)} />
               </div>
             </div>
