@@ -59,6 +59,10 @@ class Repository():
         
         result = list(cursor)
         return genericSerialMapper(result) if result else None
+    
+    def getCount(self, condition: Dict[str, Any]) -> int:
+        """ Get count of documents meeting condition """
+        return self._collection.count_documents(condition)
 
     
     def _getOrderFromString(self, orderType: str) -> int:

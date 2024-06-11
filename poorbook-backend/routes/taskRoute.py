@@ -1,21 +1,25 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
-from models.entities.task import Task, UpdateTaskStatus
+from models.entities.task import Task, UpdateTaskStatus, CreateTask
 from models.app.getCondition import GetCondition
+from services.taskService import TaskService
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 from data.taskRepository import TaskRepository
 from typing import Optional, Dict, Any
 
 tasksRouter = APIRouter()
 
-
 @tasksRouter.post("/tasks", response_model=ApiResponse,
                   summary="Create new task.",
                   description="Create new tasks by passing task model.",
                   tags=["Tasks"])
-async def insertTask(newTask: Task, repository: TaskRepository = Depends()):
+async def insertTask(newTask: CreateTask, repository: TaskRepository = Depends()):
     """ Insert new task """
-    result = repository.insert(newTask)
+    result = repository.insert(Task(
+        taskTitle=newTask.taskTitle,
+        taskDesc=newTask.taskDesc,
+        taskDonedate=newTask.taskDonedate
+    ))
 
     if not result:
         raise ItemNotCreatedException("Task hasnt been created.")
@@ -105,4 +109,33 @@ async def updateStatusOfTask(id: str, newStatus: UpdateTaskStatus, repository: T
 
     if not result:
         raise ItemNotUpdatedException("Tasks hasnt been updated")
+    
+
+@tasksRouter.get("/tasks/progress/all", response_model= ApiResponse, 
+                  summary="Get quantity of all today's tasks.", 
+                  description="Retrieve quantity of tasks which donedate is equal or greater than today.",
+                  tags=["Tasks/Progress"])
+def getAllTodaysTasks(service: TaskService = Depends()):
+    """ Get quantity of all tasks => today's date. """
+    result = service.getTasksQuantityByDate()
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
+    
+
+@tasksRouter.get("/tasks/progress/procentage", response_model= ApiResponse, 
+                  summary="Get procentage of DONE task", 
+                  description="Retrieve procentage of DONE tasks which donedate is equal or greater than today.",
+                  tags=["Tasks/Progress"])
+def getDoneTasksProcentage(service: TaskService = Depends()):
+    """ Get done tasks procentage agains all tasks => today's date. """
+    result = service.getDoneTaskProcentageByDate()
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
+
+@tasksRouter.get("/tasks/progress/done", response_model= ApiResponse, 
+                  summary="Get quantity of DONE tasks", 
+                  description="Retrieve quantity of DONE tasks which donedate is equal or greater than today.",
+                  tags=["Tasks/Progress"])
+def getDoneTasksQuantity(service: TaskService = Depends()):
+    """ Get done tasks quantity => today's date. """
+    result = service.getDoneTasksQuantityByDate()
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     

@@ -2,20 +2,11 @@ from pydantic import BaseModel, field_validator
 from models.enums.taskStatus import TaskStatus
 from datetime import datetime
 
-
-class Task(BaseModel):
-    """ Task entity model """
+class CreateTask(BaseModel):
     taskTitle: str
     taskDesc: str
-    taskStatus: str = 'TODO'
-    taskCreated: datetime = datetime.now()
     taskDonedate: datetime
-
-    @field_validator("taskStatus")
-    def validateExperienceLevel(cls, value):
-        """ Validate experience level agains enum """
-        return cls._validateValue(value, TaskStatus)
-
+    
     @field_validator("taskTitle")
     def validateTaskTitle(cls, value):
         """ Validate task name value"""
@@ -23,6 +14,16 @@ class Task(BaseModel):
         if len(value) > MAX_STRING_LEN:
             raise ValueError("Task name too long")
         return value
+
+class Task(CreateTask):
+    """ Task entity model """
+    taskStatus: str = 'TODO'
+    taskCreated: datetime = datetime.now()
+
+    @field_validator("taskStatus")
+    def validateExperienceLevel(cls, value):
+        """ Validate experience level agains enum """
+        return cls._validateValue(value, TaskStatus)
 
     @classmethod
     def _validateValue(cls, value, enumType):
