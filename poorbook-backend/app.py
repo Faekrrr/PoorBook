@@ -16,7 +16,7 @@ auth = Authenticator()
 #create app
 app = FastAPI(dependencies=[Depends(auth.validateApiKey)],
               title="Poor-backend",
-              version="1.0")
+              version="0.5")
 
 #configure CORS
 config = Config()

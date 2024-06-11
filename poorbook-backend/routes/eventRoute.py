@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
-from models.entities.event import Event
+from models.entities.event import CreateEvent, Event
 from models.app.getCondition import GetCondition
+from models.requests.eventsRequests import GetEventByMonth, GetEventByRange, GetEventByCondition
 from data.eventRepository import EventRepository
-from typing import Optional, Dict, Any
+from typing import Optional
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 
 eventRouter = APIRouter()
@@ -12,9 +13,13 @@ eventRouter = APIRouter()
                   summary="Create new event.",
                   description="Create new event using Event model.",
                   tags=["Events"])
-async def insertEvent(newEvent: Event, repository: EventRepository = Depends()):
+async def insertEvent(newEvent: CreateEvent, repository: EventRepository = Depends()):
     """ Create new event"""  
-    result = repository.insert(newEvent)
+    result = repository.insert(Event(
+        eventName=newEvent.eventName,
+        eventDate=newEvent.eventDate,
+        eventPlace=newEvent.eventPlace
+    ))
 
     if not result:
         raise ItemNotCreatedException("Event hasnt been created")
@@ -23,11 +28,11 @@ async def insertEvent(newEvent: Event, repository: EventRepository = Depends()):
 
 @eventRouter.get("/events", response_model=ApiResponse,
                  summary="Get all events.",
-                 description="Get all events with pagination.",
+                 description="Get all events with pagination. Default: Top 10 events, sorted by eventDate ascending.",
                  tags=["Events"])
 async def getEvents(offset: int = Query(0, description="How much to skip"),
                     take: int = Query(10, description="How much to take"),
-                    order: str = Query("ASC", description="How to order"),
+                    order: str = Query("ASC", description="How to order (ASC/DESC)"),
                     sortBy: str = Query("eventDate", description="What property to sort by"),
                     repository: EventRepository = Depends()):
     """ Get all events """
@@ -42,22 +47,72 @@ async def getEvents(offset: int = Query(0, description="How much to skip"),
         raise ItemNotFoundException("No events found.")
 
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
-        
-@eventRouter.post("/events/condition", response_model= ApiResponse, 
-                  summary="Get events by criteria.", 
-                  description="Retrieve events based on specific filtering and sorting criteria.",
+
+@eventRouter.post("/events/month", response_model=ApiResponse,
+                  summary="Get all events from given month",
+                  description="Get all events by month and year. Month should be formatted as string like 'March' and year like '2024'",
                   tags=["Events"])
-async def getTasksByCondition(condition: Optional[Dict[str, Any]],
+async def getEventsByMonth(condition: GetEventByMonth,
+                           offset: int = Query(0, description="How much to skip"),
+                           take: int = Query(10, description="How much to take"),
+                           order: str = Query("ASC", description="How to order (ASC/DESC)"),
+                           sortBy: str = Query("eventDate", description="Which property to sort by"),
+                           repository: EventRepository = Depends()):
+    """ Get events by month """
+    result = repository.getMonth(GetCondition(
+        take=take,
+        offset=offset,
+        sortOrder=order,
+        sortBy=sortBy
+    ), 
+    month=condition.month,
+    year=condition.year)
+    
+    if not result:
+        raise ItemNotFoundException("No events found.")
+
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
+
+@eventRouter.post("/events/range", response_model=ApiResponse,
+                  summary="Get events by date range.",
+                  description="Get events by range (datetime range)",
+                  tags=["Events"])
+async def getEventsByRange(condition: GetEventByRange,
+                           offset: int = Query(0, description="How much to skip"),
+                           take: int = Query(10, description="How much to take"),
+                           order: str = Query("ASC", description="How to order (ASC/DESC)"),
+                           sortBy: str = Query("eventDate", description="Which property to sort by"),
+                           repository: EventRepository = Depends()):
+    """ Get events based on data range """
+    result = repository.getRange(GetCondition(
+        take=take,
+        offset=offset,
+        sortOrder=order,
+        sortBy=sortBy
+    ),
+    range=condition)
+    
+    if not result:
+        raise ItemNotFoundException("No events found.")
+
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
+        
+@eventRouter.post("/events/condition", response_model=ApiResponse, 
+                  summary="Get events by criteria.", 
+                  description="""Retrieve events based on specific filtering and sorting criteria. 
+                  All conditions are optional and body can be empty.""",
+                  tags=["Events"])
+async def getEventsByCondition(condition: Optional[GetEventByCondition],
                               offset: int = Query(0, description="How much to skip"),
                               take: int = Query(10, description="How much to take"),
-                              order: str = Query("ASC", description="How to order"),
+                              order: str = Query("ASC", description="How to order (ASC/DESC)"),
                               sortBy: str = Query("eventDate", description="Which property to sort by"),
                               repository: EventRepository = Depends()):
     """ Get events by criteria """
     result = repository.getSorted(GetCondition(
         take=take,
         offset=offset,
-        condition=condition,
+        condition=condition.dict(),
         sortOrder=order,
         sortBy=sortBy   
     ))

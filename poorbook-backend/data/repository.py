@@ -32,11 +32,12 @@ class Repository():
     
     def get(self, offset: int, take: int, condition: Optional[Dict[str, Any]] = {}):
         """ Get items by given criteria """
-        if condition is None or condition == {}:
+        filteredCondition = {key: value for key, value in condition.items() if value is not None}
+        if filteredCondition is None or filteredCondition == {}:
             cursor = self._collection.find()
             
         else:
-            cursor = self._collection.find(condition)
+            cursor = self._collection.find(filteredCondition)
 
         cursor = cursor.skip(offset).limit(take)
         result = list(cursor)
@@ -50,7 +51,8 @@ class Repository():
             searchCondition.update(condition.filterBy)
             
         if condition.condition:
-            searchCondition.update(condition.condition)
+            filteredCondition = {key: value for key, value in condition.condition.items() if value is not None}
+            searchCondition.update(filteredCondition)
 
         orderBy = self._getOrderFromString(condition.sortOrder)
 
@@ -63,9 +65,9 @@ class Repository():
     
     def _getOrderFromString(self, orderType: str) -> int:
         """ Returns item oderder option as int """
-        if not self._isValidOrder(orderType):
+        if not self._isValidOrder(orderType.upper()):
             raise InvalidOrderException()
-        return 1 if orderType == "ASC" else -1
+        return 1 if orderType.upper() == "ASC" else -1
         
     def _isValidOrder(self, orderType: str) -> bool:
         """ Validate if given order type matches enum value """
