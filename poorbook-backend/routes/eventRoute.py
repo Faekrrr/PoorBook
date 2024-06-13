@@ -5,7 +5,7 @@ from models.app.conditionModel import ConditionModel
 from models.requests.eventsModels import EventsByMonthModel, EventsByRangeModel, EventsByConditionModel
 from data.eventRepository import EventRepository
 from typing import Optional
-from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
+from models.exceptions.apiExceptions import ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 
 eventRouter = APIRouter()
 
@@ -43,9 +43,6 @@ async def getEvents(offset: int = Query(0, description="How much to skip"),
         sortBy=sortBy
     ))
     
-    if not result:
-        raise ItemNotFoundException("No events found.")
-
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
 
 @eventRouter.post("/events/month", response_model=ApiResponse,
@@ -68,9 +65,6 @@ async def getEventsByMonth(condition: EventsByMonthModel,
     month=condition.month,
     year=condition.year)
     
-    if not result:
-        raise ItemNotFoundException("No events found.")
-
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
 
 @eventRouter.post("/events/range", response_model=ApiResponse,
@@ -92,9 +86,6 @@ async def getEventsByRange(condition: EventsByRangeModel,
     ),
     range=condition)
     
-    if not result:
-        raise ItemNotFoundException("No events found.")
-
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
         
 @eventRouter.post("/events/condition", response_model=ApiResponse, 
@@ -116,10 +107,7 @@ async def getEventsByCondition(condition: Optional[EventsByConditionModel],
         sortOrder=order,
         sortBy=sortBy   
     ))
-
-    if not result:
-        raise ItemNotFoundException("No events found.")
-        
+ 
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
 @eventRouter.delete("/events/{id}", 

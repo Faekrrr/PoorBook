@@ -4,9 +4,9 @@ from models.entities.task import Task, UpdateTaskStatus, CreateTaskModel
 from models.requests.tasksModels import TaskByConditionModel
 from models.app.conditionModel import ConditionModel
 from services.taskService import TaskService
-from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
+from models.exceptions.apiExceptions import ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 from data.taskRepository import TaskRepository
-from typing import Optional, Dict, Any
+from typing import Optional
 
 tasksRouter = APIRouter()
 
@@ -45,9 +45,6 @@ async def getTasks(offset: int = Query(0, description="How much to skip"),
         sortOrder=order,
         sortBy=sortBy
     ))
-
-    if not result:
-        raise ItemNotFoundException("No tasks found.")
     
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
@@ -70,9 +67,6 @@ async def getTasksByCondition(condition: Optional[TaskByConditionModel],
         sortOrder=order,
         sortBy=sortBy   
     ))
-
-    if not result:
-        raise ItemNotFoundException("No tasks found.")
         
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
@@ -126,9 +120,9 @@ def getAllTodaysTasks(service: TaskService = Depends()):
                   summary="Get procentage of DONE task", 
                   description="Retrieve procentage of DONE tasks which donedate is equal or greater than today.",
                   tags=["Tasks/Progress"])
-def getDoneTasksProcentage(service: TaskService = Depends()):
+def getDoneTasksPercentage(service: TaskService = Depends()):
     """ Get done tasks procentage agains all tasks => today's date. """
-    result = service.getDoneTaskProcentageByDate()
+    result = service.getDoneTasksPercentageByDate()
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
 
 @tasksRouter.get("/tasks/progress/done", response_model= ApiResponse, 

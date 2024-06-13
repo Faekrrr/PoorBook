@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
 from models.entities.note import Note, CreateNoteModel
 from data.noteRepository import NoteRepository
-from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
+from models.exceptions.apiExceptions import ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 from models.app.conditionModel import ConditionModel
 
 
@@ -39,9 +39,6 @@ def getNotes(offset: int = Query(0, description="How much to skip"),
         sortBy="created"
     ))
     
-    if not result:
-        raise ItemNotFoundException("No notes found.")
-
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
 
 
