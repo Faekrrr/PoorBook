@@ -3,26 +3,33 @@ from models.enums.taskStatus import TaskStatus
 from datetime import datetime
 
 
-class Task(BaseModel):
-    """ Task entity model """
+class TaskModel(BaseModel):
+    """ Basic task model. """
     taskTitle: str
     taskDesc: str
+    taskDonedate: datetime
+    
+    @field_validator("taskTitle")
+    def validateTaskTitle(cls, value):
+        """ Validate task name value. """
+        MAX_STRING_LEN = 255
+        if len(value) > MAX_STRING_LEN:
+            raise ValueError("Task name too long")
+        return value
+    
+class CreateTaskModel(BaseModel):
+    """ Create new task model. """
+    pass
+
+class Task(TaskModel):
+    """ Task entity model """
     taskStatus: str = 'TODO'
     taskCreated: datetime = datetime.now()
-    taskDonedate: datetime
 
     @field_validator("taskStatus")
     def validateExperienceLevel(cls, value):
         """ Validate experience level agains enum """
         return cls._validateValue(value, TaskStatus)
-
-    @field_validator("taskTitle")
-    def validateTaskTitle(cls, value):
-        """ Validate task name value"""
-        MAX_STRING_LEN = 255
-        if len(value) > MAX_STRING_LEN:
-            raise ValueError("Task name too long")
-        return value
 
     @classmethod
     def _validateValue(cls, value, enumType):
