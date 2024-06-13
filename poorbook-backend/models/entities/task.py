@@ -2,20 +2,26 @@ from pydantic import BaseModel, field_validator
 from models.enums.taskStatus import TaskStatus
 from datetime import datetime
 
-class CreateTask(BaseModel):
+
+class TaskBase(BaseModel):
+    """ Basic task model. """
     taskTitle: str
     taskDesc: str
     taskDonedate: datetime
     
     @field_validator("taskTitle")
     def validateTaskTitle(cls, value):
-        """ Validate task name value"""
+        """ Validate task name value. """
         MAX_STRING_LEN = 255
         if len(value) > MAX_STRING_LEN:
             raise ValueError("Task name too long")
         return value
+    
+class CreteTask(BaseModel):
+    """ Create new task model. """
+    pass
 
-class Task(CreateTask):
+class Task(TaskBase):
     """ Task entity model """
     taskStatus: str = 'TODO'
     taskCreated: datetime = datetime.now()
