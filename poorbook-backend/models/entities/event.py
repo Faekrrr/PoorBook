@@ -16,7 +16,7 @@ class EventModel(BaseModel):
             raise ValueError("Event name is too long")
         return value
     
-class CreateEvent(BaseModel):
+class CreateEventModel(BaseModel):
     """ Create new event model. """
     pass
 
