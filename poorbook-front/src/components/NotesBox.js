@@ -8,7 +8,7 @@ const NotesBox = () => {
 
   const fetchNotes = async () => {
     try {
-      const response = await axiosInstance.get('/notes');
+      const response = await axiosInstance.get('/notes', {params: { order: "DESC" }});
       if (response.data.statusCode === 200) {
         setNotes(response.data.content.result);
       }

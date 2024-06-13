@@ -229,7 +229,7 @@ const EventsBox = () => {
       >
         <h2>Are you sure you want to delete this event?</h2>
         <button onClick={handleDelete}>Delete</button>
-        <button onClick={closeEditModal} className='close-button'>Cancel</button>
+        <button onClick={closeDeleteModal} className='close-button'>Cancel</button>
       </Modal>
     </div>
   );
