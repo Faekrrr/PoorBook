@@ -4,7 +4,7 @@ from models.exceptions.apiExceptions import InvalidOrderException
 from models.enums.sortedBy import SortedBy
 from bson import ObjectId
 from typing import Optional, Any, Dict
-from models.app.getCondition import ConditionModel
+from models.app.conditionModel import ConditionModel
 
 
 class Repository():

@@ -3,7 +3,7 @@ from models.responses.apiResponse import ApiResponse
 from models.entities.note import Note
 from data.noteRepository import NoteRepository
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
-from models.app.getCondition import ConditionModel
+from models.app.conditionModel import ConditionModel
 
 
 noteRouter = APIRouter()

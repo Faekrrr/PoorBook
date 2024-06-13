@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
-from models.entities.task import Task, UpdateTaskStatus, CreateTask
+from models.entities.task import Task, UpdateTaskStatus, CreateTaskModel
 from models.app.conditionModel import ConditionModel
 from services.taskService import TaskService
-
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 from data.taskRepository import TaskRepository
 from typing import Optional, Dict, Any
@@ -14,7 +13,7 @@ tasksRouter = APIRouter()
                   summary="Create new task.",
                   description="Create new tasks by passing task model.",
                   tags=["Tasks"])
-async def insertTask(newTask: CreateTask, repository: TaskRepository = Depends()):
+async def insertTask(newTask: CreateTaskModel, repository: TaskRepository = Depends()):
     """ Insert new task """
     result = repository.insert(Task(
         taskTitle=newTask.taskTitle,
