@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
 from models.entities.task import Task, UpdateTaskStatus, CreateTaskModel
+from models.requests.tasksModels import TaskByConditionModel
 from models.app.conditionModel import ConditionModel
 from services.taskService import TaskService
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
@@ -55,7 +56,7 @@ async def getTasks(offset: int = Query(0, description="How much to skip"),
                   summary="Get tasks by criteria.", 
                   description="Retrieve tasks based on specific filtering and sorting criteria.",
                   tags=["Tasks"])
-async def getTasksByCondition(condition: Optional[Dict[str, Any]],
+async def getTasksByCondition(condition: Optional[TaskByConditionModel],
                               offset: int = Query(0, description="How much to skip"),
                               take: int = Query(10, description="How much to take"),
                               order: str = Query("ASC", description="How to order"),
@@ -65,7 +66,7 @@ async def getTasksByCondition(condition: Optional[Dict[str, Any]],
     result = repository.getSorted(ConditionModel(
         take=take,
         offset=offset,
-        condition=condition,
+        condition=condition.dict(),
         sortOrder=order,
         sortBy=sortBy   
     ))
@@ -121,7 +122,7 @@ def getAllTodaysTasks(service: TaskService = Depends()):
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
 
-@tasksRouter.get("/tasks/progress/procentage", response_model= ApiResponse, 
+@tasksRouter.get("/tasks/progress/percentage", response_model= ApiResponse, 
                   summary="Get procentage of DONE task", 
                   description="Retrieve procentage of DONE tasks which donedate is equal or greater than today.",
                   tags=["Tasks/Progress"])

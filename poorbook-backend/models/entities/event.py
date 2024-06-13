@@ -17,7 +17,7 @@ class EventModel(BaseModel):
         return value
     
 class CreateEventModel(BaseModel):
-    """ Create new event model. """
+    """ Request model to create new Event. """
     pass
 
 class Event(EventModel):
@@ -46,4 +46,3 @@ class Event(EventModel):
             values['eventYear'] = eventDate.year
         return values
 
-    

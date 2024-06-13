@@ -1,5 +1,5 @@
 from data.taskRepository import TaskRepository
-from datetime import datetime, date
+from datetime import datetime
 
 class TaskService():
     """ Business logic related to managing Tasks objects """
@@ -25,7 +25,7 @@ class TaskService():
         }
         return self._repository.getCount(condition)
     
-    def getDoneTaskProcentageByDate(self, date: datetime = datetime.now()) -> int:
+    def getDoneTaskPercentageByDate(self, date: datetime = datetime.now()) -> int:
         """ Get percentage of done tasks equals or greater than given date. """
         allTasks = self.getTasksQuantityByDate(date)
         doneTasks = self.getDoneTasksQuantityByDate(date)
