@@ -3,6 +3,7 @@ from models.responses.apiResponse import ApiResponse
 from models.entities.task import Task, UpdateTaskStatus, CreateTask
 from models.app.conditionModel import ConditionModel
 from services.taskService import TaskService
+
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 from data.taskRepository import TaskRepository
 from typing import Optional, Dict, Any
@@ -62,7 +63,7 @@ async def getTasksByCondition(condition: Optional[Dict[str, Any]],
                               sortBy: str = Query("taskCreated", description="Which property to sort by"),
                               repository: TaskRepository = Depends()):
     """ Get tasks by criteria """
-    result = repository.getSorted(GetCondition(
+    result = repository.getSorted(ConditionModel(
         take=take,
         offset=offset,
         condition=condition,

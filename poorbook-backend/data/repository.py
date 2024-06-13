@@ -4,7 +4,7 @@ from models.exceptions.apiExceptions import InvalidOrderException
 from models.enums.sortedBy import SortedBy
 from bson import ObjectId
 from typing import Optional, Any, Dict
-from models.app.getCondition import GetCondition
+from models.app.getCondition import ConditionModel
 
 
 class Repository():
@@ -32,17 +32,18 @@ class Repository():
     
     def get(self, offset: int, take: int, condition: Optional[Dict[str, Any]] = {}):
         """ Get items by given criteria """
-        if condition is None or condition == {}:
+        filteredCondition = {key: value for key, value in condition.items() if value is not None}
+        if filteredCondition is None or filteredCondition == {}:
             cursor = self._collection.find()
             
         else:
-            cursor = self._collection.find(condition)
+            cursor = self._collection.find(filteredCondition)
 
         cursor = cursor.skip(offset).limit(take)
         result = list(cursor)
         return genericSerialMapper(result) if result else None
     
-    def getSorted(self, condition: GetCondition):
+    def getSorted(self, condition: ConditionModel):
         """ Get sorted items """
         searchCondition = {}
 
@@ -50,7 +51,8 @@ class Repository():
             searchCondition.update(condition.filterBy)
             
         if condition.condition:
-            searchCondition.update(condition.condition)
+            filteredCondition = {key: value for key, value in condition.condition.items() if value is not None}
+            searchCondition.update(filteredCondition)
 
         orderBy = self._getOrderFromString(condition.sortOrder)
 
@@ -67,9 +69,9 @@ class Repository():
     
     def _getOrderFromString(self, orderType: str) -> int:
         """ Returns item oderder option as int """
-        if not self._isValidOrder(orderType):
+        if not self._isValidOrder(orderType.upper()):
             raise InvalidOrderException()
-        return 1 if orderType == "ASC" else -1
+        return 1 if orderType.upper() == "ASC" else -1
         
     def _isValidOrder(self, orderType: str) -> bool:
         """ Validate if given order type matches enum value """

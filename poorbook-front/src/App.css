@@ -9,7 +9,7 @@ body {
 /* Two panels */
 
 .main-container {
-  margin-top: 50px; /* Adjust this value based on the height of your TopBar */
+  padding-top: 50px; /* Adjust this value based on the height of your TopBar */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -159,94 +159,11 @@ form label {
   align-items: center;
 }
 
-
-
-/* Notes Styling */
-
-.notes-box {
-  margin: 5px;
-  padding: 10px;
-  text-align: center;
-  margin-top: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
-  flex-direction: column;
-  border-radius: 10px;
-}
-
-.note {
-  background-color: rgba(0, 0, 0, 0.6); /* Background color of the note */
-  color: white;
-  border-radius: 15px; /* Large border radius */
-  padding: 10px;
-  margin-bottom: 10px; /* Space between notes */
-}
-
-.note-input {
-  background-color: rgba(0, 0, 0, 0.6); /* Background color of the input */
-  border-radius: 12px; /* Large border radius */
-  padding: 10px;
-  margin-bottom: 10px;
-  width: calc(100% - 20px); 
-  border: 1px solid gray;
-  resize: none;
-}
-
-.note-input:focus {
-  outline: none;
-  border: 1px solid #9e36cf; /* Optional: border color when focused */
-}
-
-/* Add Icon */
-
-.add-icon {
-  background: none;
-  border: 3px #007bff solid;
-  cursor: pointer;
-  font-size: 1.7rem;
-  margin-left: 10px;
-  color: #007bff; /* Change color if needed */
-  border-radius: 25%;
-}
-
 /* Calendar styles*/
 
 .react-calendar__tile {
   position: relative;
 }
-
-/* Events Styling */
-
-.events {
-  /* Each container takes half the width */
-   border: 1px solid #ccc;
-   margin: 5px;
-   padding: 10px;
-   text-align: center;
-   background-color: white;
- }
- 
-.event {
-  margin: 2px 0;
-  padding: 2px;
-  cursor: pointer;
-  border-radius: 3px;
-  color: white;
-  font-size: 12px;
-}
-
-.start-event {
-  background-color: green;
-}
-
-.end-event {
-  background-color: orange;
-}
-
-.single-day-event {
-  background-color: blue;
-}
-
-/*Calendar styling*/
 
 .react-calendar {
   width: 100%;
@@ -255,8 +172,6 @@ form label {
   border: none !important;
   border-radius: 10px;
 }
-
-/* Another Calendar styling */
 
 .calendar-holder {
   width: 40%;
@@ -359,7 +274,7 @@ form label {
   border-radius: 5px;
   background-color: rgba(0,0,0,0.5);
   padding: 10px;
-  margin: 10px;
+  margin-bottom: 10px;
   color: white;
   text-align: left;
 }
@@ -377,9 +292,21 @@ form label {
   color: #007bff; /* Change color if needed */
 }
 
+.tasks-icons {
+  display: none; /* Hidden by default */
+  position: sticky;
+  left: 10px;
+  top: 10px;
+  color: white;
+}
+
+.task-item:hover .tasks-icons {
+  display: flex; /* Show icons on hover */
+}
+
 .tasks-list {
   list-style-type: none;
-  padding: 0;
+  padding: 10px;
 }
 
 .task-item h3 {
@@ -609,7 +536,6 @@ label select {
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 20px;
 }
 
 .paste-note-button:hover {
@@ -622,7 +548,7 @@ label select {
 }
 
 .note {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border-radius: 15px;
   padding: 10px;
@@ -640,6 +566,9 @@ label select {
 .note-content {
   font-size: 1rem;
   color: white;
+  background-color: rgba(0,0,0,0.3);
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .note-header {
@@ -672,4 +601,59 @@ label select {
   margin-left: 10px;
   color: green;
   font-size: 0.8rem;
+}
+
+/* Events Additional Styling */
+
+.events-list {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.event {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.event-id,
+.event-created {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.event-name {
+  font-size: 1rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.event-place {
+  font-size: 0.9rem;
+  color: white;
+}
+
+.event-date {
+  font-size: 0.9rem;
+  color: white;
+}
+
+.event-icons {
+  display: none; /* Hidden by default */
+  position: sticky;
+  left: 10px;
+  top: 10px;
+}
+
+.event:hover .event-icons {
+  display: flex; /* Show icons on hover */
+}
+
+.event h3 {
+  margin: 0 0 5px 0;
+  color: rgb(139, 139, 239)
 }

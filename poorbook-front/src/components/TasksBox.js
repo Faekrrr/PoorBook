@@ -4,8 +4,7 @@ import axiosInstance from '../axiosInstance';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MdSettingsInputSvideo } from "react-icons/md";
-import { FaEdit } from 'react-icons/fa';
-import { IoTrashBin } from "react-icons/io5";
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
 
@@ -146,16 +145,10 @@ const TasksBox = () => {
           <li key={task.id} className="task-item">
             <div className='title-highlight'>
               <h3>{task.taskTitle}</h3>
-              <div className="actions">
-              <button onClick={() => openStatusModal(task.id)} className="action-icon">
-                <MdSettingsInputSvideo />
-              </button>
-              <button onClick={() => openEditModal(task)} className="action-icon">
-                <FaEdit />
-              </button>
-              <button onClick={() => openDeleteModal(task.id)} className="action-icon">
-                <IoTrashBin />
-              </button>
+              <div className="tasks-icons">
+                <MdSettingsInputSvideo className="icon" onClick={() => openStatusModal(task.id)} />
+              <FaEdit className="icon" onClick={() => openEditModal(task)} />
+              <FaTrash className="icon" onClick={() => openDeleteModal(task.id)} />
             </div>
             </div>
             <hr className='solid'/>
