@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
-from models.entities.note import Note
+from models.entities.note import Note, CreateNoteModel
 from data.noteRepository import NoteRepository
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 from models.app.conditionModel import ConditionModel
@@ -12,9 +12,11 @@ noteRouter = APIRouter()
                 summary="Create new note.",
                 description="Create a new note using the Note model.",
                 tags=["Notes"])
-async def insertNote(newNote: Note, repository: NoteRepository = Depends()):
+async def insertNote(newNote: CreateNoteModel, repository: NoteRepository = Depends()):
     """ Creates new note in collection """
-    result = repository.insert(newNote)
+    result = repository.insert(Note(
+        content=newNote.content
+    ))
 
     if not result:
         raise ItemNotCreatedException("Note hasn't been created.")

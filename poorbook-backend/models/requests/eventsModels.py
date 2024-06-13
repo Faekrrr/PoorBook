@@ -3,17 +3,17 @@ from datetime import datetime
 from typing import Optional
 
 class EventsByMonthModel(BaseModel):
-    """ Get events by month request. """
+    """ Requst model to get events by it's month. """
     month: str
     year: int
     
 class EventsByRangeModel(BaseModel):
-    """ Get events by date range. """
+    """ Request model to get events by its date range. """
     dateFrom: datetime
     dateTo: datetime
     
 class EventsByConditionModel(BaseModel):
-    """ Get events by conditions """
+    """ Request model to get events passing conditions. """
     eventName: Optional[str] = None
     eventDate: Optional[datetime] = None
     eventMonth: Optional[str] = None

@@ -17,8 +17,8 @@ class TaskModel(BaseModel):
             raise ValueError("Task name too long")
         return value
     
-class CreateTaskModel(BaseModel):
-    """ Create new task model. """
+class CreateTaskModel(TaskModel):
+    """ Request model to create new Task.  """
     pass
 
 class Task(TaskModel):
