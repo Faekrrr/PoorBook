@@ -17,7 +17,7 @@ class TaskModel(BaseModel):
             raise ValueError("Task name too long")
         return value
     
-class CreteTask(BaseModel):
+class CreateTaskModel(BaseModel):
     """ Create new task model. """
     pass
 
