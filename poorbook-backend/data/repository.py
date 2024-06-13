@@ -15,10 +15,10 @@ class Repository():
         self._collection = self._database[collectionName]
 
 
-    def insert (self, entityToAdd) -> bool:
+    def insert (self, entityToAdd):
         """ Insert new entity"""
         result = self._collection.insert_one(genericMapper(entityToAdd.model_dump()))
-        return result.inserted_id is not None
+        return result.inserted_id
     
     def delete(self, entityId: str) -> bool:
         """ Delete entity by ID"""
