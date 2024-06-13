@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
 from models.entities.event import CreateEvent, Event
 from models.app.conditionModel import ConditionModel
-from models.requests.eventsRequests import GetEventByMonth, GetEventByRange, GetEventByCondition
+from models.requests.eventsModels import EventsByMonthModel, GetEventByRange, EventsByConditionModel
 from data.eventRepository import EventRepository
 from typing import Optional
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
@@ -52,7 +52,7 @@ async def getEvents(offset: int = Query(0, description="How much to skip"),
                   summary="Get all events from given month",
                   description="Get all events by month and year. Month should be formatted as string like 'March' and year like '2024'",
                   tags=["Events"])
-async def getEventsByMonth(condition: GetEventByMonth,
+async def getEventsByMonth(condition: EventsByMonthModel,
                            offset: int = Query(0, description="How much to skip"),
                            take: int = Query(10, description="How much to take"),
                            order: str = Query("ASC", description="How to order (ASC/DESC)"),
@@ -102,7 +102,7 @@ async def getEventsByRange(condition: GetEventByRange,
                   description="""Retrieve events based on specific filtering and sorting criteria. 
                   All conditions are optional and body can be empty.""",
                   tags=["Events"])
-async def getEventsByCondition(condition: Optional[GetEventByCondition],
+async def getEventsByCondition(condition: Optional[EventsByConditionModel],
                               offset: int = Query(0, description="How much to skip"),
                               take: int = Query(10, description="How much to take"),
                               order: str = Query("ASC", description="How to order (ASC/DESC)"),

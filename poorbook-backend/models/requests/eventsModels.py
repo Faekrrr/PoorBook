@@ -2,17 +2,17 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
-class GetEventByMonth(BaseModel):
-    """ Get event by month request """
+class EventsByMonthModel(BaseModel):
+    """ Get events by month request. """
     month: str
     year: int
     
-class GetEventByRange(BaseModel):
-    """ Get event by date range """
+class EventsByRangeModel(BaseModel):
+    """ Get events by date range. """
     dateFrom: datetime
     dateTo: datetime
     
-class GetEventByCondition(BaseModel):
+class EventsByConditionModel(BaseModel):
     """ Get events by conditions """
     eventName: Optional[str] = None
     eventDate: Optional[datetime] = None
