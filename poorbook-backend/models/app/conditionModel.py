@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, Any, Dict
 
 
-class GetCondition(BaseModel):
+class ConditionModel(BaseModel):
     """ Model of data needed to return item list from collection """
     offset: int 
     take: int

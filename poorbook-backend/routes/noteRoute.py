@@ -3,7 +3,7 @@ from models.responses.apiResponse import ApiResponse
 from models.entities.note import Note
 from data.noteRepository import NoteRepository
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
-from models.app.getCondition import GetCondition
+from models.app.getCondition import ConditionModel
 
 
 noteRouter = APIRouter()
@@ -30,7 +30,7 @@ def getNotes(offset: int = Query(0, description="How much to skip"),
                 order: str = Query("ASC", description="How to order"),
                 repository: NoteRepository = Depends()):
     """ Gets all notes from collection """
-    result = repository.getSorted(GetCondition(
+    result = repository.getSorted(ConditionModel(
         take=take,
         offset=offset,
         sortOrder=order,
