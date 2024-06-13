@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
 from models.entities.event import CreateEventModel, Event
 from models.app.conditionModel import ConditionModel
-from models.requests.eventsModels import EventsByMonthModel, GetEventByRange, EventsByConditionModel
+from models.requests.eventsModels import EventsByMonthModel, EventsByRangeModel, EventsByConditionModel
 from data.eventRepository import EventRepository
 from typing import Optional
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
@@ -77,7 +77,7 @@ async def getEventsByMonth(condition: EventsByMonthModel,
                   summary="Get events by date range.",
                   description="Get events by range (datetime range)",
                   tags=["Events"])
-async def getEventsByRange(condition: GetEventByRange,
+async def getEventsByRange(condition: EventsByRangeModel,
                            offset: int = Query(0, description="How much to skip"),
                            take: int = Query(10, description="How much to take"),
                            order: str = Query("ASC", description="How to order (ASC/DESC)"),

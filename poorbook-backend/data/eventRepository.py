@@ -1,6 +1,6 @@
 from data.repository import Repository
-from models.app.getCondition import ConditionModel
-from models.requests.eventsRequests import GetEventByRange
+from models.app.conditionModel import ConditionModel
+from models.requests.eventsModels import EventsByRangeModel
 
 class EventRepository(Repository):
     """ Event-specific repository. """
@@ -17,7 +17,7 @@ class EventRepository(Repository):
         }
         return self.getSorted(conditionParameters)
     
-    def getRange(self, conditionParameters: ConditionModel, range: GetEventByRange):
+    def getRange(self, conditionParameters: ConditionModel, range: EventsByRangeModel):
         """ Get events based on data range. """
         conditionParameters.condition = {
             "eventDate": {
