@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
 from models.entities.event import CreateEvent, Event
-from models.app.getCondition import GetCondition
+from models.app.conditionModel import ConditionModel
 from models.requests.eventsRequests import GetEventByMonth, GetEventByRange, GetEventByCondition
 from data.eventRepository import EventRepository
 from typing import Optional
@@ -36,7 +36,7 @@ async def getEvents(offset: int = Query(0, description="How much to skip"),
                     sortBy: str = Query("eventDate", description="What property to sort by"),
                     repository: EventRepository = Depends()):
     """ Get all events """
-    result = repository.getSorted(GetCondition(
+    result = repository.getSorted(ConditionModel(
         take=take,
         offset=offset,
         sortOrder=order,
@@ -59,7 +59,7 @@ async def getEventsByMonth(condition: GetEventByMonth,
                            sortBy: str = Query("eventDate", description="Which property to sort by"),
                            repository: EventRepository = Depends()):
     """ Get events by month """
-    result = repository.getMonth(GetCondition(
+    result = repository.getMonth(ConditionModel(
         take=take,
         offset=offset,
         sortOrder=order,
@@ -84,7 +84,7 @@ async def getEventsByRange(condition: GetEventByRange,
                            sortBy: str = Query("eventDate", description="Which property to sort by"),
                            repository: EventRepository = Depends()):
     """ Get events based on data range """
-    result = repository.getRange(GetCondition(
+    result = repository.getRange(ConditionModel(
         take=take,
         offset=offset,
         sortOrder=order,
@@ -109,7 +109,7 @@ async def getEventsByCondition(condition: Optional[GetEventByCondition],
                               sortBy: str = Query("eventDate", description="Which property to sort by"),
                               repository: EventRepository = Depends()):
     """ Get events by criteria """
-    result = repository.getSorted(GetCondition(
+    result = repository.getSorted(ConditionModel(
         take=take,
         offset=offset,
         condition=condition.dict(),

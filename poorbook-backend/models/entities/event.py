@@ -2,7 +2,7 @@ from pydantic import BaseModel, model_validator, field_validator
 from datetime import datetime
 import calendar
 
-class EventBase(BaseModel):
+class EventModel(BaseModel):
     """ Basic event model. """
     eventName: str
     eventDate: datetime
@@ -15,11 +15,12 @@ class EventBase(BaseModel):
         if len(value) > MAX_NAME_LEN:
             raise ValueError("Event name is too long")
         return value
+    
 class CreateEvent(BaseModel):
     """ Create new event model. """
     pass
 
-class Event(EventBase):
+class Event(EventModel):
     """ Event entity """
     eventCreated: datetime = datetime.now()
     eventMonth: str = None

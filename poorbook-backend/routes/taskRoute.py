@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
 from models.entities.task import Task, UpdateTaskStatus
-from models.app.getCondition import GetCondition
+from models.app.getCondition import ConditionModel
 from models.exceptions.apiExceptions import ItemNotFoundException, ItemNotCreatedException, ItemNotDeletedException, ItemNotUpdatedException
 from data.taskRepository import TaskRepository
 from typing import Optional, Dict, Any
@@ -33,7 +33,7 @@ async def getTasks(offset: int = Query(0, description="How much to skip"),
                    sortBy: str = Query("taskCreated", description="Which property to sort by"),
                    repository: TaskRepository = Depends()):
     """ Get tasks """
-    result = repository.getSorted(GetCondition(
+    result = repository.getSorted(ConditionModel(
         take=take,
         offset=offset,
         filterBy={"taskStatus": {"$ne": "DONE"}},
@@ -58,7 +58,7 @@ async def getTasksByCondition(condition: Optional[Dict[str, Any]],
                               sortBy: str = Query("taskCreated", description="Which property to sort by"),
                               repository: TaskRepository = Depends()):
     """ Get tasks by criteria """
-    result = repository.getSorted(GetCondition(
+    result = repository.getSorted(ConditionModel(
         take=take,
         offset=offset,
         condition=condition,

@@ -4,7 +4,7 @@ from models.exceptions.apiExceptions import InvalidOrderException
 from models.enums.sortedBy import SortedBy
 from bson import ObjectId
 from typing import Optional, Any, Dict
-from models.app.getCondition import GetCondition
+from models.app.getCondition import ConditionModel
 
 
 class Repository():
@@ -43,7 +43,7 @@ class Repository():
         result = list(cursor)
         return genericSerialMapper(result) if result else None
     
-    def getSorted(self, condition: GetCondition):
+    def getSorted(self, condition: ConditionModel):
         """ Get sorted items """
         searchCondition = {}
 

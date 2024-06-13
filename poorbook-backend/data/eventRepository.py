@@ -1,5 +1,5 @@
 from data.repository import Repository
-from models.app.getCondition import GetCondition
+from models.app.getCondition import ConditionModel
 from models.requests.eventsRequests import GetEventByRange
 
 class EventRepository(Repository):
@@ -9,7 +9,7 @@ class EventRepository(Repository):
         self.COLLECTION_NAME = "poor-events"
         super().__init__(self.COLLECTION_NAME)
 
-    def getMonth(self, conditionParameters: GetCondition, month: str, year: int):
+    def getMonth(self, conditionParameters: ConditionModel, month: str, year: int):
         """ Get event from specific month. """
         conditionParameters.condition = {
             "eventMonth": month,
@@ -17,7 +17,7 @@ class EventRepository(Repository):
         }
         return self.getSorted(conditionParameters)
     
-    def getRange(self, conditionParameters: GetCondition, range: GetEventByRange):
+    def getRange(self, conditionParameters: ConditionModel, range: GetEventByRange):
         """ Get events based on data range. """
         conditionParameters.condition = {
             "eventDate": {
