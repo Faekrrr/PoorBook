@@ -3,7 +3,7 @@ from models.enums.taskStatus import TaskStatus
 from datetime import datetime
 
 
-class TaskBase(BaseModel):
+class TaskModel(BaseModel):
     """ Basic task model. """
     taskTitle: str
     taskDesc: str
@@ -21,7 +21,7 @@ class CreteTask(BaseModel):
     """ Create new task model. """
     pass
 
-class Task(TaskBase):
+class Task(TaskModel):
     """ Task entity model """
     taskStatus: str = 'TODO'
     taskCreated: datetime = datetime.now()
