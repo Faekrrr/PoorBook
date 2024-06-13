@@ -26,7 +26,7 @@ class ApiResponse(BaseModel):
     
     def addContent(self, content):
         """ Add content to response"""
-        self.content = {"result": content}
+        self.content = {"result": content if content is not None else {}}
         return self
     
     def asSuccess(self, statusCode: int):

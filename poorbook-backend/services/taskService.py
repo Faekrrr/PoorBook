@@ -25,7 +25,7 @@ class TaskService():
         }
         return self._repository.getCount(condition)
     
-    def getDoneTaskPercentageByDate(self, date: datetime = datetime.now()) -> int:
+    def getDoneTasksPercentageByDate(self, date: datetime = datetime.now()) -> int:
         """ Get percentage of done tasks equals or greater than given date. """
         allTasks = self.getTasksQuantityByDate(date)
         doneTasks = self.getDoneTasksQuantityByDate(date)

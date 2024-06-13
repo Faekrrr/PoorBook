@@ -19,12 +19,6 @@ class InvalidApiKeyException(CustomApiException):
     def __init__(self, message: str = "Error validating given API key."):
         super().__init__(status=status.HTTP_401_UNAUTHORIZED, message=message, name="InvalidApiKeyException")
     
-
-class ItemNotFoundException(CustomApiException):
-    """ Requested item/s cannot be found """
-    def __init__(self, message: str = "Item hasnt been found."):
-        super().__init__(status=status.HTTP_404_NOT_FOUND, message=message, name="ItemNotFoundException")
-
 class MissingApiKeyException(CustomApiException):
     """ Backend didnt receive API key in header """
     def __init__(self, message: str = "API key not in header"):
