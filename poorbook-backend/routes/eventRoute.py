@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query, status
 from models.responses.apiResponse import ApiResponse
-from models.entities.event import CreateEvent, Event
+from models.entities.event import CreateEventModel, Event
 from models.app.conditionModel import ConditionModel
 from models.requests.eventsModels import EventsByMonthModel, GetEventByRange, EventsByConditionModel
 from data.eventRepository import EventRepository
@@ -13,7 +13,7 @@ eventRouter = APIRouter()
                   summary="Create new event.",
                   description="Create new event using Event model.",
                   tags=["Events"])
-async def insertEvent(newEvent: CreateEvent, repository: EventRepository = Depends()):
+async def insertEvent(newEvent: CreateEventModel, repository: EventRepository = Depends()):
     """ Create new event"""  
     result = repository.insert(Event(
         eventName=newEvent.eventName,
