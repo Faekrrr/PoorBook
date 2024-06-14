@@ -1,4 +1,4 @@
-from pydantic import BaseModel, model_validator, field_validator
+from pydantic import BaseModel, model_validator, field_validator, Field
 from datetime import datetime
 import calendar
 
@@ -21,8 +21,8 @@ class CreateEventModel(EventModel):
     pass
 
 class Event(EventModel):
-    """ Event entity """
-    eventCreated: datetime = datetime.now()
+    """ Event entity """  
+    eventCreated: datetime = Field(default_factory=datetime.now) 
     eventMonth: str = None
     eventYear: int = None
 

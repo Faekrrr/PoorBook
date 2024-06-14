@@ -21,7 +21,7 @@ async def insertNote(newNote: CreateNoteModel, repository: NoteRepository = Depe
     if not result:
         raise ItemNotCreatedException("Note hasn't been created.")
    
-    return ApiResponse.createResponse().addContent({"id": f'{result}'}).asSuccess(status.HTTP_201_CREATED)
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_201_CREATED)
 
 @noteRouter.get("/notes", response_model=ApiResponse,
                summary="Get all notes.",

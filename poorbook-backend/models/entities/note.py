@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 
@@ -13,7 +13,10 @@ class CreateNoteModel(NoteModel):
 
 class Note(NoteModel):
     """ Note object Model. """
-    created: datetime = datetime.now()
+    created: datetime = Field(default_factory=datetime.now)
+    
+        
+    
     
     
 

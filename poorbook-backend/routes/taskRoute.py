@@ -25,7 +25,7 @@ async def insertTask(newTask: CreateTaskModel, repository: TaskRepository = Depe
     if not result:
         raise ItemNotCreatedException("Task hasnt been created.")
    
-    return ApiResponse.createResponse().addContent({"id": f'{result}'}).asSuccess(status.HTTP_201_CREATED)
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_201_CREATED)
 
     
 @tasksRouter.get("/tasks", response_model= ApiResponse,
