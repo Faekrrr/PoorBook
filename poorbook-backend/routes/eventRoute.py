@@ -24,7 +24,7 @@ async def insertEvent(newEvent: CreateEventModel, repository: EventRepository = 
     if not result:
         raise ItemNotCreatedException("Event hasnt been created")
         
-    return ApiResponse.createResponse().asSuccess(status.HTTP_201_CREATED)
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_201_CREATED)
 
 @eventRouter.get("/events", response_model=ApiResponse,
                  summary="Get all events.",

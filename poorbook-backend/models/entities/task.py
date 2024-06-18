@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, Field
 from models.enums.taskStatus import TaskStatus
 from datetime import datetime
 
@@ -24,7 +24,7 @@ class CreateTaskModel(TaskModel):
 class Task(TaskModel):
     """ Task entity model """
     taskStatus: str = 'TODO'
-    taskCreated: datetime = datetime.now()
+    taskCreated: datetime = Field(default_factory=datetime.now) 
 
     @field_validator("taskStatus")
     def validateExperienceLevel(cls, value):

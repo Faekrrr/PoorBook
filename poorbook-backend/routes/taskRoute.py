@@ -25,7 +25,7 @@ async def insertTask(newTask: CreateTaskModel, repository: TaskRepository = Depe
     if not result:
         raise ItemNotCreatedException("Task hasnt been created.")
    
-    return ApiResponse.createResponse().asSuccess(status.HTTP_201_CREATED)
+    return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_201_CREATED)
 
     
 @tasksRouter.get("/tasks", response_model= ApiResponse,
@@ -49,7 +49,7 @@ async def getTasks(offset: int = Query(0, description="How much to skip"),
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
     
     
-@tasksRouter.post("/tasks/condition", response_model= ApiResponse, 
+@tasksRouter.post("/tasks/search", response_model= ApiResponse, 
                   summary="Get tasks by criteria.", 
                   description="Retrieve tasks based on specific filtering and sorting criteria.",
                   tags=["Tasks"])

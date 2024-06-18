@@ -4,6 +4,10 @@ WORKDIR /app/
 
 COPY ./requirements.txt /app/
 
+RUN apk add --no-cache tzdata
+
+ENV TZ=Europe/Warsaw
+
 RUN apk --no-cache add shadow \
     && addgroup -S service && adduser service -S -G service service \
     && pip install --no-cache -r requirements.txt
