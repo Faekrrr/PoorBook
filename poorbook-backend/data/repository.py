@@ -15,7 +15,7 @@ class Repository():
         self._collection = self._database[collectionName]
 
 
-    def insert (self, entityToAdd) -> dict:
+    def insert(self, entityToAdd) -> dict:
         """ Insert new entity"""
         result = self._collection.insert_one(genericMapper(entityToAdd.model_dump()))
         return {"id": f'{result.inserted_id}'}
@@ -25,7 +25,7 @@ class Repository():
         result = self._collection.delete_one({"_id": ObjectId(entityId)})
         return result.deleted_count == 1
     
-    def update (self, entityId, changes) -> bool:
+    def update(self, entityId, changes) -> bool:
         """ Update item of given Id by new data"""
         result = self._collection.update_one({"_id": ObjectId(entityId)}, {"$set": dict(changes)})
         return result.modified_count > 0
