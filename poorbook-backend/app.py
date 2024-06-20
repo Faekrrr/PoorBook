@@ -7,16 +7,17 @@ from common.authenticator import Authenticator
 from routes.eventRoute import eventRouter
 from routes.taskRoute import tasksRouter
 from routes.noteRoute import noteRouter
+from routes.itemRoute import itemRouter
 from models.exceptions.apiExceptions import CustomApiException
 import uvicorn
 
 #get authenticator
 auth = Authenticator()
 
-#create app
+#create apps
 app = FastAPI(dependencies=[Depends(auth.validateApiKey)],
               title="Poor-backend",
-              version="0.5.3")
+              version="0.5.4")
 
 #configure CORS
 config = Config()
@@ -39,6 +40,7 @@ API_PREFIX = "/api/v1"
 app.include_router(tasksRouter, prefix=API_PREFIX)
 app.include_router(eventRouter, prefix=API_PREFIX)
 app.include_router(noteRouter, prefix=API_PREFIX)
+app.include_router(itemRouter, prefix=API_PREFIX)
 
 #run uvicorn
 if __name__ == '__main__':
