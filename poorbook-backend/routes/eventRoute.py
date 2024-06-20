@@ -88,7 +88,7 @@ async def getEventsByRange(condition: EventsByRangeModel,
     
     return ApiResponse.createResponse().addContent(result).asSuccess(status.HTTP_200_OK)
         
-@eventRouter.post("/events/condition", response_model=ApiResponse, 
+@eventRouter.post("/events/search", response_model=ApiResponse, 
                   summary="Get events by criteria.", 
                   description="""Retrieve events based on specific filtering and sorting criteria. 
                   All conditions are optional and body can be empty.""",
