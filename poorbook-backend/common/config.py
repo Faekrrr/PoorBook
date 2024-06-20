@@ -17,7 +17,10 @@ class Config():
         self.ALLOWED_HEADERS = self._loadValueAsList("ALLOWED_HEADERS")
 
         #api key
-        self.API_KEY = os.environ.get("API_KEY", "")
+        #DEV:
+        self.API_KEY = os.environ.get("API_KEY", "ioxnsaunxa")
+        #PROD:
+        #self.API_KEY = os.environ.get("API_KEY", "")
 
     def _loadValueAsList(self, envName: str, default = "*"):
         """ Load values from env as a list """
